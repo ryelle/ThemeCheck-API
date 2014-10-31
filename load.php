@@ -20,7 +20,7 @@ abstract class ThemeCheck {
 	}
 
 	// should return an array of strings explaining any problems found
-	public function getError() {
+	public function get_error() {
 		return $this->error;
 	}
 

@@ -44,13 +44,13 @@ class API {
 
 		$files = listdir( $this->theme );
 
-		foreach( $files as $key => $filename ) {
+		foreach ( $files as $key => $filename ) {
 			if ( substr( $filename, -4 ) == '.php' ) {
 				$php[$filename] = php_strip_whitespace( $filename );
 			} else if ( substr( $filename, -4 ) == '.css' ) {
 				$css[$filename] = file_get_contents( $filename );
 			} else {
-				$other[$filename] = ( ! is_dir($filename) ) ? file_get_contents( $filename ) : '';
+				$other[$filename] = ( ! is_dir( $filename ) ) ? file_get_contents( $filename ) : '';
 			}
 		}
 
@@ -61,7 +61,7 @@ class API {
 				$fails++;
 			}
 
-			foreach ( $test->getError() as $error ) {
+			foreach ( $test->get_error() as $error ) {
 				array_push( $results, $error );
 			}
 		}

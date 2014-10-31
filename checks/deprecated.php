@@ -728,8 +728,8 @@ class Deprecated_Check extends ThemeCheck {
 				'version' => '3.6',
 			),
 			array(
-				'deprecated' =>'_search_terms_tidy',
-				'replacement'  => '',
+				'deprecated' => '_search_terms_tidy',
+				'replacement' => '',
 				'version' => '3.7',
 			),
 			array(
@@ -973,22 +973,22 @@ class Deprecated_Check extends ThemeCheck {
 			array(
 				'deprecated' => 'the_attachment_links',
 				'replacement' => '',
-				'version' =>  '3.7',
+				'version' => '3.7',
 			),
 			array(
 				'deprecated' => 'wp_update_core',
 				'replacement' => 'new Core_Upgrader()',
-				'version' =>  '3.7',
+				'version' => '3.7',
 			),
 			array(
 				'deprecated' => 'wp_update_plugin',
 				'replacement' => 'new Plugin_Upgrader()',
-				'version' =>  '3.7',
+				'version' => '3.7',
 			),
 			array(
 				'deprecated' => 'wp_update_theme',
 				'replacement' => 'new Theme_Upgrader()',
-				'version' =>  '3.7',
+				'version' => '3.7',
 			),
 			array(
 				'deprecated' => 'get_screen_icon',
@@ -1052,7 +1052,6 @@ class Deprecated_Check extends ThemeCheck {
 
 		foreach ( $php_files as $file_path => $file_contents ) {
 			foreach ( $functions as $function ) {
-			// foreach ( $checks as $alt => $check ) {
 				if ( preg_match( '/[\s?]' . $function['deprecated'] . '\(/', $file_contents, $matches ) ) {
 
 					$file_name = basename( $file_path );
