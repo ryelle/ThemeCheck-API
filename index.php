@@ -16,7 +16,7 @@ require_once __DIR__ . '/api.php';
 $app = new \Slim\Slim( array(
 	'debug' => true,
 ) );
-$app->get( '/options/', '\ThemeCheck\list_options' );
+$app->get( '/tests/', '\ThemeCheck\list_tests' );
 $app->get( '/validate/:theme+', '\ThemeCheck\validate' );
 $app->get( '/check/:theme+', '\ThemeCheck\check' );
 $app->run();
@@ -24,7 +24,7 @@ $app->run();
 /**
  * List all available checks
  */
-function list_options(){
+function list_tests(){
 	global $themechecks;
 	send_json_success( array_keys( $themechecks ) );
 }
@@ -51,10 +51,10 @@ function validate( $theme ){
  */
 function check( $theme ){
 	global $app, $themechecks;
-	$options = $app->request->params( 'options' );
+	$tests = $app->request->params( 'tests' );
 
-	// Filter out options that aren't available
-	$options = array_intersect( $options, array_keys( $themechecks ) );
+	// Filter out tests that aren't available
+	$tests = array_intersect( $tests, array_keys( $themechecks ) );
 
 	// Run selected tests
 }
