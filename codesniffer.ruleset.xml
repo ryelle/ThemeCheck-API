@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<ruleset name="Underscores WordPress Theme Coding Standards Configuration">
+<ruleset name="Theme Check API Coding Standards Configuration">
 	<!-- Set a description for this ruleset. -->
-	<description>A custom set of code standard rules to check for Underscores.</description>
+	<description>WordPress Coding Standards, customized for the Theme Check API</description>
 
 	<!-- Include the WordPress ruleset, with exclusions. -->
 	<rule ref="WordPress">
-		<!-- <exclude name="WordPress.XSS.EscapeOutput" /> -->
-		<!-- <exclude name="WordPress.WhiteSpace.ScopeIndent.Incorrect" /> -->
+		<exclude name="WordPress.PHP.YodaConditions" />
+		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent.TabsUsed" />
 	</rule>
 </ruleset>
