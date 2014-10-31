@@ -19,6 +19,9 @@ $app = new \Slim\Slim( array(
 $app->get( '/validate/:theme+', '\ThemeCheck\Router\validate' );
 $app->run();
 
+/**
+ * Set up and run all theme checks against the uploaded theme
+ */
 function validate( $theme ){
 	$theme_check = new \ThemeCheck\API;
 
