@@ -1,43 +1,43 @@
 <?php
 
+/**
+ * Check that the theme isn't creating any extra pages in WP admin
+ */
 class Admin_Menu_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
-
 		$pass = true;
 
-		//check for levels deprecated in 2.0 in creating menus.
-		$checks = array(
-			'/([^_](add_(admin|submenu|menu|dashboard|posts|media|links|pages|comments|theme|plugins|users|management|options)_page)\s?\([^,]*,[^,]*,\s[\'|"]?(level_[0-9]|[0-9])[^;|\r|\r\n]*)/' => __( 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="http://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>', 'theme-check' ),
-			'/[^a-z0-9](current_user_can\s?\(\s?[\'\"]level_[0-9][\'\"]\s?\))[^\r|\r\n]*/' => __( 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="http://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>', 'theme-check' ),
+		// //check for levels deprecated in 2.0 in creating menus.
+		$tests = array(
+			array(
+				'level'   => TC_REQUIRED,
+				'pattern' => '/([^_]add_(admin|submenu|menu|dashboard|posts|media|links|pages|comments|plugins|users|management|options)_page\()/',
+				'reason'  => 'Themes should use <code>add_theme_page()</code> for adding admin pages.',
+			), array(
+				'level'   => TC_WARNING,
+				'pattern' => '/([^_](add_(admin|submenu|menu|dashboard|posts|media|links|pages|comments|theme|plugins|users|management|options)_page)\s?\([^,]*,[^,]*,\s[\'|"]?(level_[0-9]|[0-9])[^;|\r|\r\n]*)/',
+				'reason'  => 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="http://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>',
+			), array(
+				'level'   => TC_WARNING,
+				'pattern' => '/[^a-z0-9](current_user_can\s?\(\s?[\'\"]level_[0-9][\'\"]\s?\))[^\r|\r\n]*/',
+				'reason'  => 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="http://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>',
+			),
 		);
 
-		foreach ( $php_files as $php_key => $phpfile ) {
-			foreach ( $checks as $key => $check ) {
-				checkcount();
-				if ( preg_match( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
-					$grep = ( isset( $matches[2] ) ) ? tc_grep( $matches[2], $php_key ) : tc_grep( $matches[1], $php_key );
-					$this->error[] = sprintf('<span class="tc-lead tc-warning">'.__( 'WARNING', 'theme-check' ) . '</span>: <strong>%1$s</strong>. %2$s%3$s', $filename, $check, $grep );
-					$pass = false;
-				}
-			}
-		}
+		ThemeCheck::increment(); // Keep track of how many checks we do.
 
-
-		//check for add_admin_page
-		$checks = array(
-			'/([^_]add_(admin|submenu|menu|dashboard|posts|media|links|pages|comments|plugins|users|management|options)_page\()/' => __( 'Themes should use <strong>add_theme_page()</strong> for adding admin pages.', 'theme-check' ),
-		);
-
-		foreach ( $php_files as $php_key => $phpfile ) {
-			foreach ( $checks as $key => $check ) {
-				checkcount();
-				if ( preg_match( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
-					$error = ltrim( rtrim( $matches[0], '(' ) );
-					$grep = tc_grep( $error, $php_key );
-					$this->error[] = sprintf('<span class="tc-lead tc-required">'.__( 'REQUIRED', 'theme-check' ) .'</span>: <strong>%1$s</strong>. %2$s%3$s', $filename, $check, $grep);
+		foreach ( $php_files as $file_path => $file_contents ) {
+			foreach ( $tests as $test ) {
+				if ( preg_match( $test['pattern'], $file_contents, $matches ) ) {
+					$file_name = basename( $file_path );
+					$this->error[] = array(
+						'level' => $test['level'],
+						'file'  => $file_name,
+						'line'  => 0, // @todo
+						'error' => $test['reason'],
+						'test'  => __CLASS__,
+					);
 					$pass = false;
 				}
 			}

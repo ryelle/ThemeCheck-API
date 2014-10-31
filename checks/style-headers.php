@@ -3,38 +3,35 @@
 class Style_Headers_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
+		$pass = true;
+		$css  = implode( ' ', $css_files );
 
-		$css = implode( ' ', $css_files );
-		$ret = true;
-
-		$checks = array(
-			'[ \t\/*#]*Theme Name:' => __( '<strong>Theme name:</strong> is missing from your style.css header.', 'theme-check' ),
-			'[ \t\/*#]*Description:' => __( '<strong>Description:</strong> is missing from your style.css header.', 'theme-check' ),
-			'[ \t\/*#]*Author:' => __( '<strong>Author:</strong> is missing from your style.css header.', 'theme-check' ),
-			'[ \t\/*#]*Version' => __( '<strong>Version:</strong> is missing from your style.css header.', 'theme-check' ),
-			'[ \t\/*#]*License:' => __( '<strong>License:</strong> is missing from your style.css header.', 'theme-check' ),
-			'[ \t\/*#]*License URI:' => __( '<strong>License URI:</strong> is missing from your style.css header.', 'theme-check' ),
-			'\.sticky' => __( '<strong>.sticky</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.bypostauthor' => __( '<strong>.bypostauthor</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.alignleft' => __( '<strong>.alignleft</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.alignright' => __( '<strong>.alignright</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.aligncenter' => __( '<strong>.aligncenter</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.wp-caption' => __( '<strong>.wp-caption</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.wp-caption-text' => __( '<strong>.wp-caption-text</strong> css class is needed in your theme css.', 'theme-check' ),
-			'\.gallery-caption' => __( '<strong>.gallery-caption</strong> css class is needed in your theme css.', 'theme-check' )
+		$tests = array(
+			'[ \t\/*#]*Theme Name:' => '<strong>Theme name:</strong> is missing from your style.css header.',
+			'[ \t\/*#]*Description:' => '<strong>Description:</strong> is missing from your style.css header.',
+			'[ \t\/*#]*Author:' => '<strong>Author:</strong> is missing from your style.css header.',
+			'[ \t\/*#]*Version' => '<strong>Version:</strong> is missing from your style.css header.',
+			'[ \t\/*#]*License:' => '<strong>License:</strong> is missing from your style.css header.',
+			'[ \t\/*#]*License URI:' => '<strong>License URI:</strong> is missing from your style.css header.',
 		);
 
-		foreach ($checks as $key => $check) {
-			checkcount();
-			if ( !preg_match( '/' . $key . '/i', $css, $matches ) ) {
-				$this->error[] = "<span class='tc-lead tc-required'>" . __('REQUIRED', 'theme-check' ) . "</span>:" . $check;
-				$ret = false;
+		ThemeCheck::increment(); // Keep track of how many checks we do.
+
+		foreach ( $tests as $test => $reason ) {
+			if ( ! preg_match( '/' . $test . '/i', $css, $matches ) ) {
+				$this->error[] = array(
+					'level' => TC_REQUIRED,
+					'file'  => false,
+					'line'  => false,
+					'error' => $reason,
+					'test'  => __CLASS__,
+				);
+				$pass = false;
 			}
 		}
 
-		return $ret;
+		return $pass;
 	}
-
 }
 
 $themechecks['style-headers'] = new Style_Headers_Check;

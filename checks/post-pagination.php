@@ -3,22 +3,29 @@
 class Post_Pagination_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
+		$pass = true;
+		$php  = implode( ' ', $php_files );
 
-		$ret = true;
+		ThemeCheck::increment(); // Keep track of how many checks we do.
 
-		// combine all the php files into one string to make it easier to search
-		$php = implode( ' ', $php_files );
-		checkcount();
-		if ( strpos( $php, 'posts_nav_link' ) === false && strpos( $php, 'paginate_links' ) === false &&
-		   ( strpos( $php, 'previous_posts_link' ) === false && strpos( $php, 'next_posts_link' ) === false )
-		   ) {
-			$this->error[] = '<span class="tc-lead tc-required">'.__('REQUIRED','theme-check').'</span>: '.__("The theme doesn't have post pagination code in it. Use <strong>posts_nav_link()</strong> or <strong>paginate_links()</strong> or <strong>next_posts_link()</strong> and <strong>previous_posts_link()</strong> to add post pagination.", 'theme-check' );
-			$ret = false;
+		if ( strpos( $php, 'posts_nav_link' ) === false
+		  && strpos( $php, 'paginate_links' ) === false
+		  && ( strpos( $php, 'previous_posts_link' ) === false
+		    && strpos( $php, 'next_posts_link' ) === false
+		  )
+		) {
+			$this->error[] = array(
+				'level' => TC_REQUIRED,
+				'file'  => false,
+				'line'  => false,
+				'error' => "The theme doesn't have post pagination code in it. Use <code>posts_nav_link()</code> or <code>paginate_links()</code> or <code>next_posts_link()</code> and <code>previous_posts_link()</code> to add post pagination.",
+				'test'  => __CLASS__,
+			);
+			$pass = false;
 		}
 
-		return $ret;
+		return $pass;
 	}
-
 }
 
 $themechecks['post-pagination'] = new Post_Pagination_Check;

@@ -3,33 +3,52 @@
 class Directories_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
+		$pass = true;
+		$files = array();
 
-		$ret = true;
-		$found = false;
-
-		foreach ( $php_files as $name => $file ) {
-			checkcount();
-			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false ) $found = true;
+		foreach ( $php_files as $file_path => $file_contents ) {
+			if ( strpos( $file_path, '.git' ) !== false
+			  || strpos( $file_path, '.svn' ) !== false
+			) {
+				$files[] = $file_path;
+			}
 		}
 
-		foreach ( $css_files as $name => $file ) {
-			checkcount();
-			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false || strpos( $name, '.hg' ) !== false || strpos( $name, '.bzr' ) !== false ) $found = true;
+		foreach ( $css_files as $file_path => $file_contents ) {
+			if ( strpos( $file_path, '.git' ) !== false
+			  || strpos( $file_path, '.svn' ) !== false
+			  || strpos( $file_path, '.hg' ) !== false
+			  || strpos( $file_path, '.bzr' ) !== false
+			) {
+				$files[] = $file_path;
+			}
 		}
 
-		foreach ( $other_files as $name => $file ) {
-			checkcount();
-			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false || strpos( $name, '.hg' ) !== false || strpos( $name, '.bzr' ) !== false ) $found = true;
+		foreach ( $other_files as $file_path => $file_contents ) {
+			if ( strpos( $file_path, '.git' ) !== false
+			  || strpos( $file_path, '.svn' ) !== false
+			  || strpos( $file_path, '.hg' ) !== false
+			  || strpos( $file_path, '.bzr' ) !== false
+			) {
+				$files[] = $file_path;
+			}
 		}
 
-		if ($found) {
-			$this->error[] = sprintf('<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check' ) . '</span>: ' . __( 'Please remove any extraneous directories like .git or .svn from the ZIP file before uploading it.', 'theme-check') );
-			$ret = false;
+		ThemeCheck::increment(); // Keep track of how many checks we do.
+
+		if ( ! empty( $files ) ) {
+			$this->error[] = array(
+				'level' => TC_REQUIRED,
+				'file'  => false,
+				'line'  => false,
+				'error' => sprintf( 'Found <code>%s</code>. Please remove any extraneous directories from the ZIP file before uploading it.', implode( '</code>, <code>', $files ) ),
+				'test'  => __CLASS__,
+			);
+			$pass = false;
 		}
 
-		return $ret;
+		return $pass;
 	}
-
 }
 
 $themechecks['directories'] = new Directories_Check;

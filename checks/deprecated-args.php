@@ -3,14 +3,12 @@
 /**
  * Checks for the use of deprecated function parameters.
  */
-
 class Deprecated_Args_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
+		$pass = true;
 
-		$ret = true;
-
-		$checks = array(
+		$functions = array(
 			'get_bloginfo' => array(
 				'home'                 => 'home_url()',
 				'url'                  => 'home_url()',
@@ -37,27 +35,33 @@ class Deprecated_Args_Check extends ThemeCheck {
 			)
 		);
 
-		foreach ( $php_files as $php_key => $php_file ) {
-			// Loop through all functions.
-			foreach ( $checks as $function => $data ) {
-				checkcount();
+		ThemeCheck::increment(); // Keep track of how many checks we do.
+
+		foreach ( $php_files as $file_path => $file_contents ) {
+			foreach ( $functions as $function => $invalid_args ) {
 
 				// Loop through the parameters and look for all function/parameter combinations.
-				foreach ( $data as $parameter => $replacement ) {
-					if ( preg_match( '/' . $function . '\(\s*("|\')' . $parameter . '("|\')\s*\)/', $php_file, $matches ) ) {
-						$filename      = tc_filename( $php_key );
-						$error         = ltrim( rtrim( $matches[0], '(' ) );
-						$grep          = tc_grep( $error, $php_key );
-						$this->error[] = sprintf( '<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check' ) . '</span>: ' . __( '<strong>%1$s</strong> was found in the file <strong>%2$s</strong>. Use <strong>%3$s</strong> instead.%4$s', 'theme-check' ), $error, $filename, $replacement, $grep );
-						$ret           = false;
+				foreach ( $invalid_args as $parameter => $replacement ) {
+					if ( preg_match( '/' . $function . '\(\s*("|\')' . $parameter . '("|\')\s*\)/', $file_contents, $matches ) ) {
+
+						$file_name = basename( $file_path );
+						$error = ltrim( rtrim( $matches[0], '(' ) );
+
+						$this->error[] = array(
+							'level' => TC_REQUIRED,
+							'file'  => $file_name,
+							'line'  => 0, // @todo
+							'error' => sprintf( '<code>%s</code> was found. It is deprecated, use <code>%s</code> instead.', $error, $replacement ),
+							'test'  => __CLASS__,
+						);
+						$pass = false;
 					}
 				}
 			}
 		}
 
-		return $ret;
+		return $pass;
 	}
-
 }
 
 $themechecks['deprecated-args'] = new Deprecated_Args_Check;

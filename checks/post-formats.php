@@ -3,35 +3,41 @@
 class Post_Formats_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
-		$ret = true;
+		$pass = true;
+		$php  = implode( ' ', $php_files );
+		$css  = implode( ' ', $css_files );
 
-		$php = implode( ' ', $php_files );
-		$css = implode( ' ', $css_files );
+		$tests = array(
+			'/add_theme_support\(\s?("|\')post-formats("|\')/m',
+		);
 
-		checkcount();
+		ThemeCheck::increment(); // Keep track of how many checks we do.
 
-		$checks = array(
-			'/add_theme_support\(\s?("|\')post-formats("|\')/m'
-			);
+		foreach ( $php_files as $file_path => $file_contents ) {
+			foreach ( $tests as $test ) {
+				if ( preg_match( $test, $file_contents, $matches ) ) {
 
-		foreach ( $php_files as $php_key => $phpfile ) {
-			foreach ( $checks as $check ) {
-				checkcount();
-				if ( preg_match( $check, $phpfile, $matches ) ) {
-					if ( !strpos( $php, 'get_post_format' ) && !strpos( $php, 'has_post_format' ) && !strpos( $css, '.format' ) ) {
-						$filename = tc_filename( $php_key );
-						$matches[0] = str_replace(array('"',"'"),'', $matches[0]);
-						$error = esc_html( rtrim($matches[0], '(' ) );
-						$grep = tc_grep( rtrim($matches[0], '(' ), $php_key);
-						$this->error[] = sprintf('<span class="tc-lead tc-required">'.__('REQUIRED','theme-check').'</span>: '.__('<strong>%1$s</strong> was found in the file <strong>%2$s</strong>. However get_post_format and/or has_post_format were not found, and no use of formats in the CSS was detected.', 'theme-check'), $error, $filename);
-						$ret = false;
+					if ( ! strpos( $php, 'get_post_format' )
+					  && ! strpos( $php, 'has_post_format' )
+					  && ! strpos( $css, '.format' )
+					) {
+						$file_name = basename( $file_path );
+						$error = ltrim( rtrim( $matches[0], '(' ) );
+						$this->error[] = array(
+							'level' => TC_REQUIRED,
+							'file'  => false,
+							'line'  => false,
+							'error' => sprintf( 'Post format support was added in the file <code>%s</code>. However get_post_format and/or has_post_format were not found, and no use of formats in the CSS was detected.', $file_name ),
+							'test'  => __CLASS__,
+						);
+						$pass = false;
 					}
 				}
 			}
 		}
-		return $ret;
-	}
 
+		return $pass;
+	}
 }
 
 $themechecks['post-formats'] = new Post_Formats_Check;
