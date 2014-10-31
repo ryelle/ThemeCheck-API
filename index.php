@@ -13,17 +13,9 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/load.php';
 require_once __DIR__ . '/api.php';
 
-/*
- * What endpoints might we want?
- * - List of checks available
- * - Just get a theme's data from style.css?
- * - Send all files and get results back
- */
 $app = new \Slim\Slim( array(
 	'debug' => true,
 ) );
-
-// @todo POST with file data
 $app->get( '/validate/:theme+', '\ThemeCheck\Router\validate' );
 $app->run();
 
