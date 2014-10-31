@@ -42,7 +42,7 @@ class API {
 		$results = array();
 		$passes = $fails = 0;
 
-		$files = \ThemeCheck\Functions\listdir( $this->theme );
+		$files = listdir( $this->theme );
 
 		foreach( $files as $key => $filename ) {
 			if ( substr( $filename, -4 ) == '.php' ) {

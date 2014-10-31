@@ -2,7 +2,7 @@
 /*
  * Helper functions
  */
-namespace ThemeCheck\Functions;
+namespace ThemeCheck;
 
 /**
  * Send a JSON response back to an Ajax request.
