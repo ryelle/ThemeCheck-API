@@ -18,6 +18,7 @@ $app = new \Slim\Slim( array(
 ) );
 $app->get( '/options/', '\ThemeCheck\Router\list_options' );
 $app->get( '/validate/:theme+', '\ThemeCheck\Router\validate' );
+$app->get( '/check/:theme+', '\ThemeCheck\Router\check' );
 $app->run();
 
 /**
@@ -44,3 +45,18 @@ function validate( $theme ){
 	$results = $theme_check->run_all_tests();
 	\ThemeCheck\Functions\send_json_success( $results );
 }
+
+/**
+ * Set up and run selected theme checks against the uploaded theme
+ */
+function check( $theme ){
+	global $app, $themechecks;
+	$options = $app->request->params( 'options' );
+
+	// Filter out options that aren't available
+	$options = array_intersect( $options, array_keys( $themechecks ) );
+
+	// Run selected tests
+}
+
+
