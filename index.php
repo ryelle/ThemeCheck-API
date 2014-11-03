@@ -42,7 +42,7 @@ function validate( $theme ){
 		send_json_error( 'Theme not found.' );
 	}
 
-	$results = $theme_check->run_all_tests();
+	$results = $theme_check->run_tests();
 	send_json_success( $results );
 }
 

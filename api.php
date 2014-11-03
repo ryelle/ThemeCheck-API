@@ -35,9 +35,9 @@ class API {
 	/**
 	 * Run the selected checks against this theme.
 	 *
-	 * @return  array  ?
+	 * @return  array  Associative array of results and run information.
 	 */
-	public function run_all_tests(){
+	public function run_tests(){
 		global $themechecks;
 		$results = array();
 		$passes = $fails = 0;
