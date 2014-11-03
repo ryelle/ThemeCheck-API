@@ -20,6 +20,8 @@ class API {
 		'DomainPath'  => 'Domain Path',
 	);
 
+	public $is_child = false;
+
 	/**
 	 * Set the theme we want to check
 	 *
@@ -29,6 +31,9 @@ class API {
 		if ( file_exists( $theme ) ) {
 			$this->theme = $this->find_theme( $theme );
 			$this->headers = $this->parse_style_header( $this->theme );
+			if ( $this->headers['Template'] ) {
+				$this->is_child = true;
+			}
 			return true;
 		} else {
 			return false;
@@ -132,7 +137,8 @@ class API {
 				$other[$filename] = ( ! is_dir( $filename ) ) ? file_get_contents( $filename ) : '';
 			}
 		}
-		if ( empty( $php ) ){
+		// A child theme might not have any PHP, so only fail this if there is no Template defined.
+		if ( empty( $php ) && '' == $this->is_child ){
 			send_json_error( "Invalid theme, no PHP files were found." );
 		}
 
