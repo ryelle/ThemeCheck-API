@@ -6,7 +6,19 @@ namespace ThemeCheck;
 
 class API {
 	private $theme = '';
-	private $header = array();
+	private $headers = array(
+		'Name'        => 'Theme Name',
+		'ThemeURI'    => 'Theme URI',
+		'Description' => 'Description',
+		'Author'      => 'Author',
+		'AuthorURI'   => 'Author URI',
+		'Version'     => 'Version',
+		'Template'    => 'Template',
+		'Status'      => 'Status',
+		'Tags'        => 'Tags',
+		'TextDomain'  => 'Text Domain',
+		'DomainPath'  => 'Domain Path',
+	);
 
 	/**
 	 * Set the theme we want to check
@@ -15,7 +27,7 @@ class API {
 	 */
 	public function set_theme( $theme ) {
 		if ( file_exists( $theme ) ) {
-			$this->header = $this->parse_style_header( $theme );
+			$this->headers = $this->parse_style_header( $theme );
 			$this->theme = $theme;
 			return true;
 		} else {
@@ -29,7 +41,47 @@ class API {
 	 * @return  array  Assoc array of theme information
 	 */
 	public function parse_style_header( $theme ) {
-		// Ugh.
+		$headers = $this->headers;
+
+		$files = scandir( $theme );
+		if ( ! in_array( 'style.css', $files ) ){
+			foreach ( $files as $maybe_folder ) {
+				if ( in_array( $maybe_folder, array( '.', '..' ) ) ) {
+					continue;
+				}
+				$subfiles = scandir( $theme . $maybe_folder );
+				if ( in_array( 'style.css', $subfiles ) ) {
+					$theme .= $maybe_folder . '/';
+					break;
+				}
+			}
+		}
+		if ( ! file_exists( $theme . 'style.css' ) ){
+			// Invalid theme, should be deleted.
+			delete_dir( $this->theme );
+			send_json_error( "Required file style.css does not exist. This file must be present in a valid theme." );
+		}
+
+		// We don't need to write to the file, so just open for reading.
+		$fp = fopen( $theme . 'style.css', 'r' );
+
+		// Pull only the first 8kiB of the file in.
+		$file_data = fread( $fp, 8192 );
+
+		// PHP will close file handle, but we are good citizens.
+		fclose( $fp );
+
+		// Make sure we catch CR-only line endings.
+		$file_data = str_replace( "\r", "\n", $file_data );
+
+		foreach ( $headers as $field => $regex ) {
+			if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match ) && $match[1] )
+				$headers[ $field ] = trim( preg_replace( "/\s*(?:\*\/|\?>).*/", '', $match[1] ) );
+			else
+				$headers[ $field ] = '';
+		}
+
+		return $headers;
 	}
 
 	/**
