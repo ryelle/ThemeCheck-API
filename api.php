@@ -27,12 +27,44 @@ class API {
 	 */
 	public function set_theme( $theme ) {
 		if ( file_exists( $theme ) ) {
-			$this->headers = $this->parse_style_header( $theme );
-			$this->theme = $theme;
+			$this->theme = $this->find_theme( $theme );
+			$this->headers = $this->parse_style_header( $this->theme );
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Grab the base theme directory by looking for style.css.
+	 *
+	 * @param  string  $theme  Directory of uploaded, unzipped theme
+	 * @return  string  Full path to theme
+	 */
+	public function find_theme( $theme ){
+		$base_path = $theme;
+		$files = scandir( $theme );
+		if ( ! in_array( 'style.css', $files ) ){
+			foreach ( $files as $maybe_folder ) {
+				if ( in_array( $maybe_folder, array( '.', '..' ) ) ) {
+					continue;
+				}
+				if ( is_dir( $theme . $maybe_folder ) ) {
+					$subfiles = scandir( $theme . $maybe_folder );
+					if ( in_array( 'style.css', $subfiles ) ) {
+						$theme .= $maybe_folder . '/';
+						break;
+					}
+				}
+			}
+		}
+		if ( ! file_exists( $theme . 'style.css' ) ){
+			// Invalid theme, should be deleted.
+			delete_dir( $base_path );
+			send_json_error( "Required file style.css does not exist. This file must be present in a valid theme." );
+		}
+
+		return $theme;
 	}
 
 	/**
@@ -42,25 +74,6 @@ class API {
 	 */
 	public function parse_style_header( $theme ) {
 		$headers = $this->headers;
-
-		$files = scandir( $theme );
-		if ( ! in_array( 'style.css', $files ) ){
-			foreach ( $files as $maybe_folder ) {
-				if ( in_array( $maybe_folder, array( '.', '..' ) ) ) {
-					continue;
-				}
-				$subfiles = scandir( $theme . $maybe_folder );
-				if ( in_array( 'style.css', $subfiles ) ) {
-					$theme .= $maybe_folder . '/';
-					break;
-				}
-			}
-		}
-		if ( ! file_exists( $theme . 'style.css' ) ){
-			// Invalid theme, should be deleted.
-			delete_dir( $this->theme );
-			send_json_error( "Required file style.css does not exist. This file must be present in a valid theme." );
-		}
 
 		// We don't need to write to the file, so just open for reading.
 		$fp = fopen( $theme . 'style.css', 'r' );
