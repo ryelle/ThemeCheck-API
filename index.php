@@ -51,12 +51,30 @@ function validate( $theme ){
  */
 function check( $theme ){
 	global $app, $themechecks;
+	$theme_check = new API;
+
+	// Eventually this would handle uploaded files.
+	$theme = 'themes/' . implode( '/', $theme );
+	if ( ! $theme_check->set_theme( $theme ) ) {
+		send_json_error( 'Theme not found.' );
+	}
+
 	$tests = $app->request->params( 'tests' );
+	if ( ! $tests ){
+		$results = $theme_check->run_tests( $tests );
+		send_json_success( $results );
+	}
 
 	// Filter out tests that aren't available
-	$tests = array_intersect( $tests, array_keys( $themechecks ) );
+	$tests = array_intersect( (array) $tests, array_keys( $themechecks ) );
 
-	// Run selected tests
+	if ( $theme_check->select_tests( $tests ) ){
+		$results = $theme_check->run_tests( $tests );
+		send_json_success( $results );
+	}
+
+	// We've made it this far because there are no valid tests to run.
+	send_json_error( 'No valid tests selected.' );
 }
 
 
