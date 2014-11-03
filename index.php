@@ -18,6 +18,7 @@ $app = new \Slim\Slim( array(
 ) );
 $app->get( '/tests/', '\ThemeCheck\list_tests' );
 $app->post( '/validate/', '\ThemeCheck\validate' );
+$app->post( '/headers/', '\ThemeCheck\get_headers' );
 $app->run();
 
 /**
@@ -26,6 +27,20 @@ $app->run();
 function list_tests(){
 	global $themechecks;
 	send_json_success( array_keys( $themechecks ) );
+}
+
+/**
+ * Parse and display the theme headers from style.css.
+ */
+function get_headers(){
+	global $app, $themechecks;
+	$theme_check = setup();
+	$headers = $theme_check->get_headers();
+	if ( $headers ) {
+		send_json_success( $theme_check->get_headers() );
+	} else {
+		send_json_error( 'Theme not found.' );
+	}
 }
 
 /**

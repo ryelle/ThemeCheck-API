@@ -85,6 +85,19 @@ class API {
 	}
 
 	/**
+	 * Get headers for the currently-selected theme
+	 *
+	 * @return  array|boolean  Assoc array of headers if we have a theme, false if not.
+	 */
+	public function get_headers(){
+		// Check that the theme is set
+		if ( $this->theme ) {
+			return $this->headers;
+		}
+		return false;
+	}
+
+	/**
 	 * Run the selected checks against this theme.
 	 *
 	 * @return  array  Associative array of results and run information.
