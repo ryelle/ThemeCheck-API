@@ -121,6 +121,7 @@ class API {
 		$passes = $fails = 0;
 
 		$files = listdir( $this->theme );
+		$php = $css = $other = array();
 
 		foreach ( $files as $key => $filename ) {
 			if ( substr( $filename, -4 ) == '.php' ) {
@@ -130,6 +131,9 @@ class API {
 			} else {
 				$other[$filename] = ( ! is_dir( $filename ) ) ? file_get_contents( $filename ) : '';
 			}
+		}
+		if ( empty( $php ) ){
+			send_json_error( "Invalid theme, no PHP files were found." );
 		}
 
 		foreach ( $themechecks as $name => $test ) {
