@@ -68,6 +68,9 @@ class API {
 
 		$total_results = count( $results );
 
+		// We're done, and should delete our uploaded theme.
+		delete_dir( $this->theme );
+
 		return array(
 			'total'   => \ThemeCheck::get_increment(),
 			'passes'  => $passes,

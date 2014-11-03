@@ -17,8 +17,7 @@ $app = new \Slim\Slim( array(
 	'debug' => true,
 ) );
 $app->get( '/tests/', '\ThemeCheck\list_tests' );
-$app->get( '/validate/:theme+', '\ThemeCheck\validate' );
-$app->get( '/check/:theme+', '\ThemeCheck\check' );
+$app->post( '/validate/', '\ThemeCheck\validate' );
 $app->run();
 
 /**
@@ -30,34 +29,48 @@ function list_tests(){
 }
 
 /**
- * Set up and run all theme checks against the uploaded theme
+ *
+ * @return  ThemeCheck\API  API Object for this theme
  */
-function validate( $theme ){
+function setup(){
+	global $app;
 	$theme_check = new API;
 
-	// Eventually this would handle uploaded files.
-	$theme = 'themes/' . implode( '/', $theme );
+	$theme = false;
+	if ( isset( $_FILES['theme'] ) ) {
+		$theme = $_FILES['theme'];
+	} else {
+		send_json_error( 'Theme not uploaded.' );
+	}
 
-	if ( ! $theme_check->set_theme( $theme ) ) {
+	if ( 'application/zip' != $theme['type'] ) {
+		send_json_error( 'Please upload a .zip of your theme.' );
+	}
+
+	$theme_path = '/tmp/'. str_replace( '.', '', $theme['name'] ) . '/';
+
+	$zip = new \ZipArchive;
+	$res = $zip->open( $theme['tmp_name'] );
+	if ($res === TRUE) {
+		$zip->extractTo( $theme_path );
+		$zip->close();
+	} else {
+		send_json_error( 'Error unzipping theme.' );
+	}
+
+	if ( ! $theme_check->set_theme( $theme_path ) ) {
 		send_json_error( 'Theme not found.' );
 	}
 
-	$results = $theme_check->run_tests();
-	send_json_success( $results );
+	return $theme_check;
 }
 
 /**
- * Set up and run selected theme checks against the uploaded theme
+ * Set up and run theme checks against the uploaded theme, filtering out unselected tests if necessary.
  */
-function check( $theme ){
+function validate(){
 	global $app, $themechecks;
-	$theme_check = new API;
-
-	// Eventually this would handle uploaded files.
-	$theme = 'themes/' . implode( '/', $theme );
-	if ( ! $theme_check->set_theme( $theme ) ) {
-		send_json_error( 'Theme not found.' );
-	}
+	$theme_check = setup();
 
 	$tests = $app->request->params( 'tests' );
 	if ( ! $tests ){
@@ -76,5 +89,3 @@ function check( $theme ){
 	// We've made it this far because there are no valid tests to run.
 	send_json_error( 'No valid tests selected.' );
 }
-
-

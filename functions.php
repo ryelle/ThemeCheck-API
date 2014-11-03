@@ -61,3 +61,32 @@ function listdir( $dir ) {
 
 	return $files;
 }
+
+/**
+ * Remove a directory, diving into it to remove subfolders and files first.
+ *
+ * @param  string  $dir  Directory on server
+ * @return  boolean  True if successfully deleted, false if not
+ */
+function delete_dir( $dir ){
+	if ( is_dir( $dir ) === true ) {
+		$dir_iterator = new \RecursiveDirectoryIterator( $dir );
+		$iterator = new \RecursiveIteratorIterator( $dir_iterator, \RecursiveIteratorIterator::CHILD_FIRST );
+
+		foreach ( $iterator as $file ) {
+			if ( in_array( $file->getBasename(), array('.', '..') ) !== true ) {
+				if ( $file->isDir() === true ) {
+					rmdir( $file->getPathName() );
+				} else if ( ( $file->isFile() === true ) || ( $file->isLink() === true ) ) {
+					unlink( $file->getPathname() );
+				}
+			}
+		}
+		return rmdir( $dir );
+
+	} else if ( ( is_file( $dir ) === true ) || ( is_link( $dir ) === true ) ) {
+		return unlink( $dir );
+	}
+
+	return false;
+}
