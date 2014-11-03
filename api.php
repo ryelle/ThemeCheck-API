@@ -77,4 +77,21 @@ class API {
 		);
 	}
 
+	/**
+	 * Discard the tests that aren't selected.
+	 *
+	 * @param   array  $tests  List of selected tests
+	 * @return  boolean  Check if we have any tests selected now
+	 */
+	public function select_tests( $tests ){
+		global $themechecks;
+		foreach ( $themechecks as $key => $value ) {
+			if ( ! in_array( $key, $tests ) ){
+				unset( $themechecks[$key] );
+			}
+		}
+
+		return ( ! empty( $themechecks ) );
+	}
+
 }
