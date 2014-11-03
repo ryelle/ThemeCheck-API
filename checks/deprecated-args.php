@@ -46,11 +46,12 @@ class Deprecated_Args_Check extends ThemeCheck {
 
 						$file_name = basename( $file_path );
 						$error = ltrim( rtrim( $matches[0], '(' ) );
+						$line = \ThemeCheck\get_line( $error, $file_path );
 
 						$this->error[] = array(
 							'level' => TC_REQUIRED,
 							'file'  => $file_name,
-							'line'  => 0, // @todo
+							'line'  => $line,
 							'error' => sprintf( '<code>%s</code> was found. It is deprecated, use <code>%s</code> instead.', $error, $replacement ),
 							'test'  => __CLASS__,
 						);

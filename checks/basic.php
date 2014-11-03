@@ -68,8 +68,8 @@ class Basic_Check extends ThemeCheck {
 			if ( ! preg_match( '/' . $test['pattern'] . '/i', $php ) ) {
 				$this->error[] = array(
 					'level' => $test['level'],
-					'file'  => null,
-					'line'  => null,
+					'file'  => false,
+					'line'  => false,
 					'error' => $test['reason'],
 					'test'  => __CLASS__,
 				);

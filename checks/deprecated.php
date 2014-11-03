@@ -1056,6 +1056,7 @@ class Deprecated_Check extends ThemeCheck {
 
 					$file_name = basename( $file_path );
 					$error = ltrim( rtrim( $matches[0], '(' ) );
+					$line = \ThemeCheck\get_line( $error, $file_path );
 					if ( ! empty( $function['replacement'] ) ) {
 						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s, use <code>%s</code> instead.', $error, $function['version'], $function['replacement'] );
 					} else {
@@ -1065,7 +1066,7 @@ class Deprecated_Check extends ThemeCheck {
 					$this->error[] = array(
 						'level' => TC_REQUIRED,
 						'file'  => $file_name,
-						'line'  => 0, // @todo
+						'line'  => $line,
 						'error' => $error_string,
 						'test'  => __CLASS__,
 					);

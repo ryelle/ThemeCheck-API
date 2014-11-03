@@ -54,10 +54,11 @@ class Black_Hat_Check extends ThemeCheck {
 			foreach ( $tests as $test ) {
 				if ( preg_match( $test['pattern'], $file_contents, $matches ) ) {
 					$file_name = basename( $file_path );
+					$line = \ThemeCheck\get_line( $matches[0], $file_path );
 					$this->error[] = array(
 						'level' => $test['level'],
 						'file'  => $file_name,
-						'line'  => 0, // @todo
+						'line'  => $line,
 						'error' => $test['reason'],
 						'test'  => __CLASS__,
 					);
