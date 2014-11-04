@@ -14,6 +14,11 @@ abstract class ThemeCheck {
 	 */
 	protected $error = array();
 
+	/**
+	 * Reference to the current theme path
+	 */
+	public $theme = array();
+
 	// should return true for good/okay/acceptable, false for bad/not-okay/unacceptable
 	public function check( $php_files, $css_files, $other_files ){
 		return false;

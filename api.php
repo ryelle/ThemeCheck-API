@@ -143,6 +143,7 @@ class API {
 		}
 
 		foreach ( $themechecks as $name => $test ) {
+			$test->theme = $this->theme;
 			if ( $test->check( $php, $css, $other ) ) {
 				$passes++;
 			} else {
