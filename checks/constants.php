@@ -20,7 +20,7 @@ class Constants_Check extends ThemeCheck {
 					$file_name = basename( $file_path );
 					$line = \ThemeCheck\get_line( $invalid, $file_path );
 					$this->error[] = array(
-						'level' => TC_WARNING,
+						'level' => TC_RECOMMENDED,
 						'file'  => $file_name,
 						'line'  => $line,
 						'error' => sprintf( '<code>%1$s</code> was found, use <code>%2$s</code> instead.', $invalid, $replacement ),
