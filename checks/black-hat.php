@@ -49,6 +49,10 @@ class Black_Hat_Check extends ThemeCheck {
 				'level' => TC_WARNING,
 				'pattern' => '/[^a-z0-9](?<!_)(file_get_contents|curl_exec|curl_init|readfile|fopen|fsockopen|pfsockopen|fclose|fread|fwrite|file_put_contents)\s?\(/',
 				'reason' => 'File operations should use the WP_Filesystem methods instead of direct PHP filesystem calls',
+			), array(
+				'level' => TC_INFO,
+				'pattern' => '/<(iframe)[^>]*>/',
+				'reason' => 'iframes are sometimes used to load unwanted adverts and code on your site',
 			),
 		);
 
