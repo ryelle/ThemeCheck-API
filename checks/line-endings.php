@@ -56,4 +56,4 @@ class Line_Endings_Check extends ThemeCheck {
 	}
 }
 
-$themechecks[] = new Line_Endings_Check;
+$themechecks['line-endings'] = new Line_Endings_Check;
