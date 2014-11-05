@@ -1075,6 +1075,68 @@ class Deprecated_Check extends ThemeCheck {
 			}
 		}
 
+		// The following are only recommended
+		$functions = array(
+			array(
+				'deprecated' => 'rich_edit_exists',
+				'replacement' => '',
+				'version' => '3.9',
+			), array(
+				'deprecated' => 'default_topic_count_text',
+				'replacement' => '',
+				'version' => '3.9',
+			), array(
+				'deprecated' => 'format_to_post',
+				'replacement' => '',
+				'version' => '3.9',
+			), array(
+				'deprecated' => 'get_current_site_name',
+				'replacement' => 'get_current_site()',
+				'version' => '3.9',
+			), array(
+				'deprecated' => 'wpmu_current_site',
+				'replacement' => '',
+				'version' => '3.9',
+			), array(
+				'deprecated' => 'get_all_category_ids',
+				'replacement' => 'get_terms()',
+				'version' => '4.0',
+			), array(
+				'deprecated' => 'like_escape',
+				'replacement' => 'wpdb::esc_like()',
+				'version' => '4.0',
+			), array(
+				'deprecated' => 'url_is_accessable_via_ssl',
+				'replacement' => '',
+				'version' => '4.0',
+			)
+		);
+
+		foreach ( $php_files as $file_path => $file_contents ) {
+			foreach ( $functions as $function ) {
+				if ( preg_match( '/[\s?]' . $function['deprecated'] . '\(/', $file_contents, $matches ) ) {
+
+					$file_name = basename( $file_path );
+					$error = ltrim( rtrim( $matches[0], '(' ) );
+					$line = \ThemeCheck\get_line( $error, $file_path );
+					if ( ! empty( $function['replacement'] ) ) {
+						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s, use <code>%s</code> instead.', $error, $function['version'], $function['replacement'] );
+					} else {
+						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s and should be removed.', $error, $function['version'] );
+					}
+
+					$this->error[] = array(
+						'level' => TC_RECOMMENDED,
+						'file'  => $file_name,
+						'line'  => $line,
+						'error' => $error_string,
+						'test'  => __CLASS__,
+					);
+					$pass = false;
+				}
+			}
+		}
+
 		return $pass;
 	}
 }
