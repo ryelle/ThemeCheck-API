@@ -1052,10 +1052,9 @@ class Deprecated_Check extends ThemeCheck {
 
 		foreach ( $php_files as $file_path => $file_contents ) {
 			foreach ( $functions as $function ) {
-				if ( preg_match( '/[\s?]' . $function['deprecated'] . '\(/', $file_contents, $matches ) ) {
-
+				if ( false !== strpos( $file_contents, ' ' . $function['deprecated'] . '(' ) ) {
 					$file_name = basename( $file_path );
-					$error = ltrim( rtrim( $matches[0], '(' ) );
+					$error = $function['deprecated'];
 					$line = \ThemeCheck\get_line( $error, $file_path );
 					if ( ! empty( $function['replacement'] ) ) {
 						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s, use <code>%s</code> instead.', $error, $function['version'], $function['replacement'] );
@@ -1114,10 +1113,9 @@ class Deprecated_Check extends ThemeCheck {
 
 		foreach ( $php_files as $file_path => $file_contents ) {
 			foreach ( $functions as $function ) {
-				if ( preg_match( '/[\s?]' . $function['deprecated'] . '\(/', $file_contents, $matches ) ) {
-
+				if ( false !== strpos( $file_contents, ' ' . $function['deprecated'] . '(' ) ) {
 					$file_name = basename( $file_path );
-					$error = ltrim( rtrim( $matches[0], '(' ) );
+					$error = $function['deprecated'];
 					$line = \ThemeCheck\get_line( $error, $file_path );
 					if ( ! empty( $function['replacement'] ) ) {
 						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s, use <code>%s</code> instead.', $error, $function['version'], $function['replacement'] );
