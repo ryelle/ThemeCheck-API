@@ -6,8 +6,8 @@ class Time_Date_Check extends ThemeCheck {
 
 		$tests = array(
 			'/date_i18n\(\s?["\'][^\'"]+["\']\s?\)/',
-			'/(get_)?the_date\(\s?["\']([^\'"]+)\s?["\']\s?/',
-			'/(get_)?the_time\(\s?["\']([^\'"]+)\s?["\']\s?/',
+			'/[^_]the_date\(\s?["\']([^\'"]+)\s?["\']\s?/',
+			'/[^_]the_time\(\s?["\']([^\'"]+)\s?["\']\s?/',
 		);
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.
