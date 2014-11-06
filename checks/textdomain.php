@@ -54,6 +54,43 @@ class Textdomain_Check extends ThemeCheck {
 			}
 		}
 
+		// If we don't have the tokenizer, just return this check.
+		if ( !function_exists( 'token_get_all' ) ) {
+			return $pass;
+		}
+
+		$get_domain_regexs = array(
+			'/[\s\(;]_[_e]\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?([^\)]*)\s?\)/',
+			'/[\s\(]_x\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?[\'"][^\'"]*[\'"]\s?,\s?([^\)]*)\s?\)/',
+			'/[\s\(]_n\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?[\'"][^\'"]*[\'"]\s?,\s?[$a-z\(\)0-9]*\s?,\s?([^\)]*)\s?\)/',
+			'/[\s\(]_nx\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?[\'"][^\'"]*[\'"]\s?,\s?[$a-z\(\)0-9]*\s?,\s?[\'"][^\'"]*[\'"]\s?,\s?([^\)]*)\s?\)/',
+		);
+
+		foreach ( $php_files as $file_path => $file_contents ) {
+			$file_name = basename( $file_path );
+			foreach ( $get_domain_regexs as $regex ) {
+				if ( preg_match_all( $regex, $file_contents, $matches, PREG_SET_ORDER ) ) {
+					foreach ( $matches as $match ){
+						$error = $match[0];
+						$tokens = @token_get_all( '<?php '.$match[1].';' );
+						if ( empty( $tokens ) ) continue;
+						foreach ( $tokens as $token ) {
+							if ( is_array( $token ) && in_array( $token[0], array( T_VARIABLE, T_CONST, T_STRING ) ) ) {
+								$line = \ThemeCheck\get_line( trim( $error ), $file_path );
+								$this->error[] = array(
+									'level' => TC_RECOMMENDED,
+									'file'  => $file_name,
+									'line'  => $line,
+									'error' => sprintf( 'Text domain must be a string: <code>%s</code> is not a valid text domain.', trim( $match[1] ) ),
+									'test'  => __CLASS__,
+								);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		return $pass;
 	}
 }
