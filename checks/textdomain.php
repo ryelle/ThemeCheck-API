@@ -5,6 +5,7 @@ class Textdomain_Check extends ThemeCheck {
 	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
 		$header = ( new \ThemeCheck\API )->parse_style_header( $this->theme );
+		$header['TextDomain'] = strtolower( $header['TextDomain'] );
 
 		// Checks for a textdomain in __(), _e(), _x(), _n(), and _nx().
 		$textdomain_regex = '/[\s\(]_x\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?[\'"][^\'"]*[\'"]\s?\)|[\s\(;]_[_e]\s?\(\s?[\'"][^\'"]*[\'"]\s?\)|[\s\(]_n\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?[\'"][^\'"]*[\'"]\s?,\s?[$a-z\(\)0-9]*\s?\)|[\s\(]_nx\s?\(\s?[\'"][^\'"]*[\'"]\s?,\s?[\'"][^\'"]*[\'"]\s?,\s?[$a-z\(\)0-9]*\s?,\s?[\'"][^\'"]*[\'"]\s?\)/';
@@ -25,6 +26,25 @@ class Textdomain_Check extends ThemeCheck {
 					);
 				}
 			}
+		}
+
+		// Check if we have a textdomain in style.css. Considering this required if tagged 'translation-ready'.
+		if ( empty( $header['TextDomain'] ) ){
+			$error = array(
+				'level' => TC_RECOMMENDED,
+				'file'  => 'style.css',
+				'line'  => false,
+				'error' => 'Text domain is not set in style.css.',
+				'test'  => __CLASS__,
+			);
+			if ( false !== strpos( $header['Tags'], 'translation-ready' ) ) {
+				$error['level'] = TC_REQUIRED;
+				$pass = false;
+			}
+			$this->error[] = $error;
+
+			// Don't bother checking next step, since we don't have a textdomain to check against.
+			return $pass;
 		}
 
 		$get_domain_regexs = array(
