@@ -8,7 +8,7 @@ class Post_Thumbnail_Check extends ThemeCheck {
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.
 
-		if ( strpos( $php, 'the_post_thumbnail' ) === false ) {
+		if ( ( strpos( $php, 'the_post_thumbnail' ) === false ) && ( strpos( $php, 'get_post_thumbnail' ) === false ) ) {
 			$this->error[] = array(
 				'level' => TC_RECOMMENDED,
 				'file'  => false,
