@@ -19,10 +19,10 @@ class Style_Tags_Check extends ThemeCheck {
 			return $pass;
 		}
 
-		$allowed_tags = array("black","blue","brown","gray","green","orange","pink","purple","red","silver","tan","white","yellow","dark","light","one-column","two-columns","three-columns","four-columns","left-sidebar","right-sidebar","fixed-layout","fluid-layout","responsive-layout","flexible-header","accessibility-ready","blavatar","buddypress","custom-background","custom-colors","custom-header","custom-menu","editor-style","featured-image-header","featured-images","front-page-post-form","full-width-template","microformats","post-formats","rtl-language-support","sticky-post","theme-options","threaded-comments","translation-ready","holiday","photoblogging","seasonal");
+		$allowed_tags = array( 'black', 'blue', 'brown', 'gray', 'green', 'orange', 'pink', 'purple', 'red', 'silver', 'tan', 'white', 'yellow', 'dark', 'light', 'one-column', 'two-columns', 'three-columns', 'four-columns', 'left-sidebar', 'right-sidebar', 'fixed-layout', 'fluid-layout', 'responsive-layout', 'flexible-header', 'accessibility-ready', 'blavatar', 'buddypress', 'custom-background', 'custom-colors', 'custom-header', 'custom-menu', 'editor-style', 'featured-image-header', 'featured-images', 'front-page-post-form', 'full-width-template', 'microformats', 'post-formats', 'rtl-language-support', 'sticky-post', 'theme-options', 'threaded-comments', 'translation-ready', 'holiday', 'photoblogging', 'seasonal' );
 
 		$tags = explode( ',', $header['Tags'] );
-		foreach( $tags as $tag ) {
+		foreach ( $tags as $tag ) {
 			$tag = strtolower( trim( $tag ) );
 			if ( ! in_array( $tag, $allowed_tags ) ) {
 				if ( in_array( $tag, array( 'flexible-width', 'fixed-width' ) ) ) {
