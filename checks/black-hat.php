@@ -53,6 +53,46 @@ class Black_Hat_Check extends ThemeCheck {
 				'level' => TC_INFO,
 				'pattern' => '/<(iframe)[^>]*>/',
 				'reason' => 'iframes are sometimes used to load unwanted adverts and code on your site',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/wshell\.php/',
+				'reason' => 'This may be a script used by hackers to get control of your server.',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/ShellBOT/',
+				'reason' => 'This may be a script used by hackers to get control of your server.',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/uname -a/',
+				'reason' => 'Tells a hacker what operating system your server is running',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/YW55cmVzdWx0cy5uZXQ=/',
+				'reason' => 'base64 encoded text found in Search Engine Redirect hack <a href="http://blogbuildingu.com/wordpress/wordpress-search-engine-redirect-hack">[1]</a>',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/\$_COOKIE\[\'yahg\'\]/',
+				'reason' => 'YAHG Googlerank.info exploit code <a href="http://creativebriefing.com/wordpress-hacked-googlerankinfo/">[1]</a>',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/ekibastos/',
+				'reason' => 'Possible Ekibastos attack <a href="http://ocaoimh.ie/did-your-wordpress-site-get-hacked/">[1]</a>',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/<script>\/\*(GNU GPL|LGPL)\*\/ try\{window.onload.+catch\(e\) \{\}<\/script>/',
+				'reason' => "Possible 'Gumblar' JavaScript attack <a href='http://threatinfo.trendmicro.com/vinfo/articles/securityarticles.asp?xmlfile=042710-GUMBLAR.xml'>[1]</a> <a href='http://justcoded.com/article/gumblar-family-virus-removal-tool/'>[2]</a>",
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/php \$[a-zA-Z]*=\'as\';/',
+				'reason' => 'Symptom of the "Pharma Hack" <a href="http://blog.sucuri.net/2010/07/understanding-and-cleaning-the-pharma-hack-on-wordpress.html">[1]</a>',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/defined?\(\'wp_class_support/',
+				'reason' => 'Symptom of the "Pharma Hack" <a href="http://blog.sucuri.net/2010/07/understanding-and-cleaning-the-pharma-hack-on-wordpress.html">[1]</a>',
+			), array(
+				'level' => TC_WARNING,
+				'pattern' => '/AGiT3NiT3NiT3fUQKxJvI/',
+				'reason' => 'Malicious footer code injection detected!',
 			),
 		);
 
