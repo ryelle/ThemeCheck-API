@@ -1109,7 +1109,7 @@ class Deprecated_Check extends ThemeCheck {
 				'deprecated' => 'url_is_accessable_via_ssl',
 				'replacement' => '',
 				'version' => '4.0',
-			)
+			),
 		);
 
 		foreach ( $php_files as $file_path => $file_contents ) {

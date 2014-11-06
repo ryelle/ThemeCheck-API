@@ -55,7 +55,7 @@ class Textdomain_Check extends ThemeCheck {
 		}
 
 		// If we don't have the tokenizer, just return this check.
-		if ( !function_exists( 'token_get_all' ) ) {
+		if ( ! function_exists( 'token_get_all' ) ) {
 			return $pass;
 		}
 
@@ -73,7 +73,9 @@ class Textdomain_Check extends ThemeCheck {
 					foreach ( $matches as $match ){
 						$error = $match[0];
 						$tokens = @token_get_all( '<?php '.$match[1].';' );
-						if ( empty( $tokens ) ) continue;
+						if ( empty( $tokens ) ) {
+							continue;
+						}
 						foreach ( $tokens as $token ) {
 							if ( is_array( $token ) && in_array( $token[0], array( T_VARIABLE, T_CONST, T_STRING ) ) ) {
 								$line = \ThemeCheck\get_line( trim( $error ), $file_path );

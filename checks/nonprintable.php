@@ -11,7 +11,7 @@ class NonPrintable_Check  extends ThemeCheck {
 			// 09 = tab
 			// 0A = line feed
 			// 0D = new line
-			if ( preg_match('/[\x00-\x08\x0B-\x0C\x0E-\x1F\x80-\xFF]/', $file_contents, $matches ) ) {
+			if ( preg_match( '/[\x00-\x08\x0B-\x0C\x0E-\x1F\x80-\xFF]/', $file_contents, $matches ) ) {
 				$file_name = basename( $file_path );
 				$line = \ThemeCheck\get_line( $matches[0], $file_path );
 				$this->error[] = array(

@@ -101,7 +101,7 @@ function delete_dir( $dir ){
 function get_line( $code, $file_path ) {
 	$lines = file( $file_path, FILE_IGNORE_NEW_LINES ); // Read the theme file into an array
 	$code = trim( $code );
-	foreach( $lines as $line_number => $line ) {
+	foreach ( $lines as $line_number => $line ) {
 		// var_dump( $code, $line );
 		if ( stristr( $line, $code ) ) {
 			return $line_number + 1; // Lines are not zero-indexed.

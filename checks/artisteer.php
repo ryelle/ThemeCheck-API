@@ -2,7 +2,7 @@
 
 class Artisteer_Check extends ThemeCheck {
 
-	function check( $php_files, $css_files, $other_files) {
+	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
 		$php = implode( ' ', $php_files );
 
@@ -15,7 +15,7 @@ class Artisteer_Check extends ThemeCheck {
 		  || strpos( $php, 'm_normalize_widget_style_tokens' ) !== false
 		  || strpos( $php, "bw = '<!--- BEGIN Widget --->';" ) !== false
 		  || strpos( $php, "ew = '<!-- end_widget -->';" ) !== false
-		  || strpos( $php, "end_widget' => '<!-- end_widget -->'") !== false
+		  || strpos( $php, "end_widget' => '<!-- end_widget -->'" ) !== false
 		) {
 			$this->error[] = array(
 				'level' => TC_WARNING,

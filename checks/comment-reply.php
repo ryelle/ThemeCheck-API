@@ -2,7 +2,7 @@
 
 class Comment_Reply_Check extends ThemeCheck {
 
-	function check( $php_files, $css_files, $other_files) {
+	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
 		$php = implode( ' ', $php_files );
 

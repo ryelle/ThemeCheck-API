@@ -17,7 +17,7 @@ class PHP_Short_Tags_Check extends ThemeCheck {
 					'level' => TC_WARNING,
 					'file'  => $file_name,
 					'line'  => $line,
-					'error' => "Found PHP short tags in file",
+					'error' => 'Found PHP short tags in file',
 					'test'  => __CLASS__,
 				);
 				$pass = false;

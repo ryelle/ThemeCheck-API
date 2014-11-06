@@ -66,7 +66,7 @@ function setup(){
 
 	$zip = new \ZipArchive;
 	$res = $zip->open( $theme['tmp_name'] );
-	if ($res === TRUE) {
+	if ( $res === true ) {
 		$zip->extractTo( $theme_path );
 		$zip->close();
 	} else {

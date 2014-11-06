@@ -13,14 +13,14 @@ class Links_Check extends ThemeCheck {
 		$url_re = '([[:alnum:]\-\.])+(\\.)([[:alnum:]]){2,4}([[:blank:][:alnum:]\/\+\=\%\&\_\\\.\~\?\-]*)';
 		$title_re = '[[:blank:][:alnum:][:punct:]]*'; // 0 or more: any num, letter(upper/lower) or any punc symbol
 		$space_re = '(\\s*)';
-		$link_regex = "/(<a)(\\s+)(href" . $space_re . "=" . $space_re . "\"" . $space_re . "((http|https|ftp):\\/\\/)?)" . $url_re . "(\"" . $space_re . $title_re . $space_re . ">)" . $title_re . "(<\\/a>)/is";
+		$link_regex = '/(<a)(\\s+)(href' . $space_re . '=' . $space_re . '"' . $space_re . '((http|https|ftp):\\/\\/)?)' . $url_re . '("' . $space_re . $title_re . $space_re . '>)' . $title_re . '(<\\/a>)/is';
 
 		foreach ( $php_files as $file_path => $file_contents ) {
 			$line = false;
 
 			if ( preg_match_all( $link_regex, $file_contents, $matches, PREG_SET_ORDER ) ) {
 				$file_name = basename( $file_path );
-				foreach( $matches as $key ) {
+				foreach ( $matches as $key ) {
 					if ( preg_match( '/\<a\s?href\s?=\s?["|\'](.*?)[\'|"](.*?)\>(.*?)\<\/a\>/is', $key[0], $stripped ) ) {
 						if ( ! empty( $header['AuthorURI'] )
 						  && ! empty( $header['ThemeURI'] )

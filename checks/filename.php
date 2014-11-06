@@ -33,12 +33,12 @@ class Filename_Check extends ThemeCheck {
 
 		$musthave = array( 'index.php', 'comments.php', 'style.css' );
 		$recommended = array(
-			'readme.txt' => 'Please see <a href="http://codex.wordpress.org/Theme_Review#Theme_Documentation">Theme_Documentation</a> for more information.'
+			'readme.txt' => 'Please see <a href="http://codex.wordpress.org/Theme_Review#Theme_Documentation">Theme_Documentation</a> for more information.',
 		);
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.
 
-		foreach( $blacklist as $file => $reason ) {
+		foreach ( $blacklist as $file => $reason ) {
 			if ( in_array( $file, $filenames ) ) {
 				$this->error[] = array(
 					'level' => TC_REQUIRED,
@@ -63,7 +63,7 @@ class Filename_Check extends ThemeCheck {
 		}
 
 		// @todo Child themes?
-		foreach( $musthave as $file ) {
+		foreach ( $musthave as $file ) {
 			if ( ! in_array( $file, $filenames ) ) {
 				$this->error[] = array(
 					'level' => TC_WARNING,
@@ -76,7 +76,7 @@ class Filename_Check extends ThemeCheck {
 			}
 		}
 
-		foreach( $recommended as $file => $reason ) {
+		foreach ( $recommended as $file => $reason ) {
 			if ( ! in_array( $file, $filenames ) ) {
 				$this->error[] = array(
 					'level' => TC_RECOMMENDED,

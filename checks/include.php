@@ -25,7 +25,6 @@ class Include_Check extends ThemeCheck {
 					);
 				}
 			}
-
 		}
 
 		return $pass;

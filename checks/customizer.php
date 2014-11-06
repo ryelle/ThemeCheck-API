@@ -4,7 +4,7 @@
  */
 class Customizer_Check extends ThemeCheck {
 
-	function check( $php_files, $css_files, $other_files) {
+	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.

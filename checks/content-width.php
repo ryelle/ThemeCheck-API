@@ -16,7 +16,7 @@ class Content_Width_Check extends ThemeCheck {
 				'level' => TC_REQUIRED,
 				'file'  => false,
 				'line'  => false,
-				'error' => "No content width has been defined.",
+				'error' => 'No content width has been defined.',
 				'test'  => __CLASS__,
 			);
 			$pass = false;

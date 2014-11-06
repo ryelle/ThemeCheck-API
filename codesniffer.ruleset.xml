@@ -3,9 +3,17 @@
 	<!-- Set a description for this ruleset. -->
 	<description>WordPress Coding Standards, customized for the Theme Check API</description>
 
+	<exclude-pattern>*/themes/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
 	<!-- Include the WordPress ruleset, with exclusions. -->
 	<rule ref="WordPress">
 		<exclude name="WordPress.PHP.YodaConditions" />
 		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent.TabsUsed" />
+		<exclude name="Squiz.Strings.DoubleQuoteUsage.NotRequired" />
+	</rule>
+
+	<rule ref="WordPress.VIP.FileSystemWritesDisallow">
+		<exclude-pattern>functions.php</exclude-pattern>
 	</rule>
 </ruleset>

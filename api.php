@@ -93,10 +93,11 @@ class API {
 		$file_data = str_replace( "\r", "\n", $file_data );
 
 		foreach ( $headers as $field => $regex ) {
-			if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match ) && $match[1] )
+			if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match ) && $match[1] ) {
 				$headers[ $field ] = trim( preg_replace( "/\s*(?:\*\/|\?>).*/", '', $match[1] ) );
-			else
+			} else {
 				$headers[ $field ] = '';
+			}
 		}
 
 		return $headers;

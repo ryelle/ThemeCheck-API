@@ -5,7 +5,7 @@
 
 class CDN_Check extends ThemeCheck {
 
-	function check( $php_files, $css_files, $other_files) {
+	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.
@@ -24,7 +24,7 @@ class CDN_Check extends ThemeCheck {
 		);
 
 		foreach ( $php_files as $file_path => $file_contents ) {
-			foreach( $cdn_list as $cdn_slug => $cdn_url ) {
+			foreach ( $cdn_list as $cdn_slug => $cdn_url ) {
 				if ( false !== strpos( $file_contents, $cdn_url ) ) {
 					$file_name = basename( $file_path );
 					$line = \ThemeCheck\get_line( $cdn_url, $file_path );
