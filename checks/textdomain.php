@@ -45,7 +45,7 @@ class Textdomain_Check extends ThemeCheck {
 								'level' => TC_RECOMMENDED,
 								'file'  => $file_name,
 								'line'  => $line,
-								'error' => 'Text domain problems were found, domain must match the theme slug.',
+								'error' => sprintf( 'Text domain problems were found, domain <code>%s</code> must match the theme slug.', $match[1] ),
 								'test'  => __CLASS__,
 							);
 						}
