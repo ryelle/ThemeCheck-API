@@ -35,7 +35,7 @@ class Plugin_Territory_Check extends ThemeCheck {
 					'level' => $test['level'],
 					'file'  => false,
 					'line'  => false,
-					'error' => sprintf( $test['reason'], $function ),
+					'error' => sprintf( $test['reason'], $test['pattern'] ),
 					'test'  => __CLASS__,
 				);
 				$pass = false;
