@@ -11,13 +11,13 @@ class Screenshot_Checks extends ThemeCheck {
 
 		$screenshot = false;
 		foreach ( array( 'png', 'gif', 'jpg', 'jpeg' ) as $ext ) {
-			if ( in_array( $this->theme . "screenshot.$ext", $file_names ) ) {
-				$screenshot = $this->theme . "screenshot.$ext";
+			if ( in_array( $this->base_path . "screenshot.$ext", $file_names ) ) {
+				$screenshot = $this->base_path . "screenshot.$ext";
 			}
 		}
 
 		if ( $screenshot ) {
-			$image = getimagesize( $screenshot );
+			$image = getimagesize( 'zip://'. $this->theme->filename .'#'.$screenshot );
 			if ( $image[0] > 880 || $image[1] > 660 ) {
 				$this->error[] = array(
 					'level' => TC_RECOMMENDED,
