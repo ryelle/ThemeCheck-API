@@ -16,7 +16,7 @@ class Textdomain_Check extends ThemeCheck {
 			if ( preg_match_all( $textdomain_regex, $file_contents, $matches ) ) {
 				$file_name = basename( $file_path );
 				foreach ( $matches[0] as $match ) {
-					$line = \ThemeCheck\get_line( trim( $match ), $file_path );
+					$line = $this->get_line( trim( $match ), $file_path );
 					$this->error[] = array(
 						'level' => TC_RECOMMENDED,
 						'file'  => $file_name,
@@ -60,7 +60,7 @@ class Textdomain_Check extends ThemeCheck {
 				if ( preg_match_all( $regex, $file_contents, $matches, PREG_SET_ORDER ) ) {
 					foreach ( $matches as $match ){
 						if ( $header['TextDomain'] !== $match[1] ) {
-							$line = \ThemeCheck\get_line( trim( $match[0] ), $file_path );
+							$line = $this->get_line( trim( $match[0] ), $file_path );
 							$this->error[] = array(
 								'level' => TC_RECOMMENDED,
 								'file'  => $file_name,
@@ -98,7 +98,7 @@ class Textdomain_Check extends ThemeCheck {
 						}
 						foreach ( $tokens as $token ) {
 							if ( is_array( $token ) && in_array( $token[0], array( T_VARIABLE, T_CONST, T_STRING ) ) ) {
-								$line = \ThemeCheck\get_line( trim( $error ), $file_path );
+								$line = $this->get_line( trim( $error ), $file_path );
 								$this->error[] = array(
 									'level' => TC_RECOMMENDED,
 									'file'  => $file_name,

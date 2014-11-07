@@ -1055,7 +1055,7 @@ class Deprecated_Check extends ThemeCheck {
 				if ( false !== strpos( $file_contents, ' ' . $function['deprecated'] . '(' ) ) {
 					$file_name = basename( $file_path );
 					$error = $function['deprecated'];
-					$line = \ThemeCheck\get_line( $error, $file_path );
+					$line = $this->get_line( $error, $file_path );
 					if ( ! empty( $function['replacement'] ) ) {
 						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s, use <code>%s</code> instead.', $error, $function['version'], $function['replacement'] );
 					} else {
@@ -1116,7 +1116,7 @@ class Deprecated_Check extends ThemeCheck {
 				if ( false !== strpos( $file_contents, ' ' . $function['deprecated'] . '(' ) ) {
 					$file_name = basename( $file_path );
 					$error = $function['deprecated'];
-					$line = \ThemeCheck\get_line( $error, $file_path );
+					$line = $this->get_line( $error, $file_path );
 					if ( ! empty( $function['replacement'] ) ) {
 						$error_string = sprintf( '<code>%s</code> was found. It is deprecated since %s, use <code>%s</code> instead.', $error, $function['version'], $function['replacement'] );
 					} else {

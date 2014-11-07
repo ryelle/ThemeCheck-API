@@ -29,7 +29,7 @@ class Links_Check extends ThemeCheck {
 						  && false === strpos( $stripped[1], $header['AuthorURI'] )
 						  && false === strpos( $stripped[1], 'wordpress.' )
 						) {
-							$line = \ThemeCheck\get_line( $stripped[1], $file_path );
+							$line = $this->get_line( $stripped[1], $file_path );
 						}
 					}
 					if ( false !== $line ) {

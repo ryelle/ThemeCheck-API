@@ -27,7 +27,7 @@ class CDN_Check extends ThemeCheck {
 			foreach ( $cdn_list as $cdn_slug => $cdn_url ) {
 				if ( false !== strpos( $file_contents, $cdn_url ) ) {
 					$file_name = basename( $file_path );
-					$line = \ThemeCheck\get_line( $cdn_url, $file_path );
+					$line = $this->get_line( $cdn_url, $file_path );
 					$this->error[] = array(
 						'level' => TC_RECOMMENDED,
 						'file'  => $file_name,

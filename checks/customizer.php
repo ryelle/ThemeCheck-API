@@ -19,7 +19,7 @@ class Customizer_Check extends ThemeCheck {
 				foreach ( $matches[1] as $match ) {
 					if ( false === strpos( $match, 'sanitize_callback' ) && false === strpos( $match, 'sanitize_js_callback' ) ) {
 						$file_name = basename( $file_path );
-						$line = \ThemeCheck\get_line( $match, $file_path );
+						$line = $this->get_line( $match, $file_path );
 						$this->error[] = array(
 							'level' => TC_REQUIRED,
 							'file'  => $file_name,
@@ -33,7 +33,7 @@ class Customizer_Check extends ThemeCheck {
 						// There's a callback, check that no empty parameter is passed.
 						if ( preg_match( '/[\'"](?:sanitize_callback|sanitize_js_callback)[\'"]\s*=>\s*[\'"]\s*[\'"]/', $match ) ) {
 							$file_name = basename( $file_path );
-							$line = \ThemeCheck\get_line( $match, $file_path );
+							$line = $this->get_line( $match, $file_path );
 							$this->error[] = array(
 								'level' => TC_REQUIRED,
 								'file'  => $file_name,

@@ -41,6 +41,25 @@ abstract class ThemeCheck {
 		global $tc_count;
 		return $tc_count;
 	}
+
+	/**
+	 * Search through a file to find where a particular piece of code is.
+	 *
+	 * @param  string  $code  Line of code
+	 * @param  string  $file_path  Path to file to be searched
+	 * @return  int  Line number of code, 0 if not found.
+	 */
+	public function get_line( $code, $file_path ) {
+		// Read the theme file into an array
+		$lines = file( 'zip://'. $this->theme->filename . '#' . $file_path, FILE_IGNORE_NEW_LINES );
+		$code = trim( $code );
+		foreach ( $lines as $line_number => $line ) {
+			if ( stristr( $line, $code ) ) {
+				return $line_number + 1; // Lines are not zero-indexed.
+			}
+		}
+		return 0;
+	}
 }
 
 // load all the checks in the checks directory

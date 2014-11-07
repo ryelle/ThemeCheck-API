@@ -46,7 +46,7 @@ class Deprecated_Args_Check extends ThemeCheck {
 
 						$file_name = basename( $file_path );
 						$error = ltrim( rtrim( $matches[0], '(' ) );
-						$line = \ThemeCheck\get_line( $error, $file_path );
+						$line = $this->get_line( $error, $file_path );
 
 						$this->error[] = array(
 							'level' => TC_REQUIRED,

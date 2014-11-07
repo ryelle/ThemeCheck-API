@@ -18,7 +18,7 @@ class Constants_Check extends ThemeCheck {
 			foreach ( $constants as $invalid => $replacement ) {
 				if ( strpos( $file_contents, $invalid ) ) {
 					$file_name = basename( $file_path );
-					$line = \ThemeCheck\get_line( $invalid, $file_path );
+					$line = $this->get_line( $invalid, $file_path );
 					$this->error[] = array(
 						'level' => TC_RECOMMENDED,
 						'file'  => $file_name,

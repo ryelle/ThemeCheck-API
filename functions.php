@@ -91,21 +91,3 @@ function delete_dir( $dir ){
 	return false;
 }
 
-/**
- * Search through a file to find where a particular piece of code is.
- *
- * @param  string  $code  Line of code
- * @param  string  $file_path  Path to file to be searched
- * @return  int  Line number of code, 0 if not found.
- */
-function get_line( $code, $file_path ) {
-	$lines = file( $file_path, FILE_IGNORE_NEW_LINES ); // Read the theme file into an array
-	$code = trim( $code );
-	foreach ( $lines as $line_number => $line ) {
-		// var_dump( $code, $line );
-		if ( stristr( $line, $code ) ) {
-			return $line_number + 1; // Lines are not zero-indexed.
-		}
-	}
-	return 0;
-}

@@ -15,7 +15,7 @@ class Include_Check extends ThemeCheck {
 			foreach ( $tests as $test => $reason ) {
 				if ( preg_match( $test, $file_contents, $matches ) ) {
 					$file_name = basename( $file_path );
-					$line = \ThemeCheck\get_line( $matches[0], $file_path );
+					$line = $this->get_line( $matches[0], $file_path );
 					$this->error[] = array(
 						'level' => TC_RECOMMENDED,
 						'file'  => $file_name,
