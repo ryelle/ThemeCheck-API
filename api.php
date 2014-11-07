@@ -6,6 +6,7 @@ namespace ThemeCheck;
 
 class API {
 	private $theme = '';
+	private $base_path = '';
 	private $headers = array(
 		'Name'        => 'Theme Name',
 		'ThemeURI'    => 'Theme URI',
@@ -47,7 +48,7 @@ class API {
 	 * @return  string  Full path to theme
 	 */
 	public function find_theme( $theme ){
-		$base_path = $theme;
+		$this->base_path = $theme;
 		$files = scandir( $theme );
 		if ( ! in_array( 'style.css', $files ) ){
 			foreach ( $files as $maybe_folder ) {
@@ -65,7 +66,7 @@ class API {
 		}
 		if ( ! file_exists( $theme . 'style.css' ) ){
 			// Invalid theme, should be deleted.
-			delete_dir( $base_path );
+			delete_dir( $this->base_path );
 			send_json_error( "Required file style.css does not exist. This file must be present in a valid theme." );
 		}
 
@@ -159,7 +160,7 @@ class API {
 		$total_results = count( $results );
 
 		// We're done, and should delete our uploaded theme.
-		delete_dir( $this->theme );
+		delete_dir( $this->base_path );
 
 		return array(
 			'total'   => \ThemeCheck::get_increment(),
