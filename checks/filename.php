@@ -43,7 +43,7 @@ class Filename_Check extends ThemeCheck {
 				$this->error[] = array(
 					'level' => TC_REQUIRED,
 					'file'  => $file,
-					'line'  => null,
+					'line'  => false,
 					'error' => sprintf( 'Found %1$s: <code>%2$s</code>.', $reason, $file ),
 					'test'  => __CLASS__,
 				);
@@ -56,7 +56,7 @@ class Filename_Check extends ThemeCheck {
 			$this->error[] = array(
 				'level' => TC_REQUIRED,
 				'file'  => $hidden_files,
-				'line'  => null,
+				'line'  => false,
 				'error' => sprintf( 'Found hidden files or folders: <code>%s</code>.', $hidden_files ),
 				'test'  => __CLASS__,
 			);
@@ -67,8 +67,8 @@ class Filename_Check extends ThemeCheck {
 			if ( ! in_array( $file, $filenames ) ) {
 				$this->error[] = array(
 					'level' => TC_WARNING,
-					'file'  => null,
-					'line'  => null,
+					'file'  => false,
+					'line'  => false,
 					'error' => sprintf( 'Could not find the required file <code>%1$s</code> in the theme.', $file ),
 					'test'  => __CLASS__,
 				);
@@ -80,8 +80,8 @@ class Filename_Check extends ThemeCheck {
 			if ( ! in_array( $file, $filenames ) ) {
 				$this->error[] = array(
 					'level' => TC_RECOMMENDED,
-					'file'  => null,
-					'line'  => null,
+					'file'  => false,
+					'line'  => false,
 					'error' => sprintf( 'Could not find the required file <code>%1$s</code> in the theme. %2$s', $file, $reason ),
 					'test'  => __CLASS__,
 				);
