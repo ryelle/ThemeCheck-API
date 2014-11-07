@@ -22,12 +22,13 @@ class Filename_Check extends ThemeCheck {
 			'desktop.ini'        => 'windows system file',
 			'project.properties' => 'NetBeans project file',
 			'project.xml'        => 'NetBeans project file',
-			'.kpf'              => 'Komodo project file',
+			'.kpf'               => 'Komodo project file',
 			'php.ini'            => 'PHP server settings file',
 			'dwsync.xml'         => 'Dreamweaver project file',
 			'error_log'          => 'PHP error log',
 			'web.config'         => 'Server settings file',
-			'.sql'              => 'SQL dump file',
+			'.sql'               => 'SQL dump file',
+			'__macosx'           => 'OSX system file',
 			'__MACOSX'           => 'OSX system file',
 		);
 
@@ -51,7 +52,7 @@ class Filename_Check extends ThemeCheck {
 			}
 		}
 
-		if ( $found = preg_grep( '/^\.+[a-zA-Z0-9]/', $filenames ) ) {
+		if ( $found = preg_grep( '/^\.+[a-zA-Z0-9-_]/', $filenames ) ) {
 			$hidden_files = implode( array_unique( $found ), ' ' );
 			$this->error[] = array(
 				'level' => TC_REQUIRED,
