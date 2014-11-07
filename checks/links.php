@@ -5,7 +5,7 @@ class Links_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
-		$header = ( new \ThemeCheck\API )->parse_style_header( $this->theme );
+		$header = ( new \ThemeCheck\API )->parse_style_header( $this->theme, $this->base_path );
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.
 

@@ -4,7 +4,7 @@ class Textdomain_Check extends ThemeCheck {
 
 	function check( $php_files, $css_files, $other_files ) {
 		$pass = true;
-		$header = ( new \ThemeCheck\API )->parse_style_header( $this->theme );
+		$header = ( new \ThemeCheck\API )->parse_style_header( $this->theme, $this->base_path );
 		$header['TextDomain'] = strtolower( $header['TextDomain'] );
 
 		// Checks for a textdomain in __(), _e(), _x(), _n(), and _nx().
