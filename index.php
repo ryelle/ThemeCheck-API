@@ -62,19 +62,14 @@ function setup(){
 		send_json_error( 'Please upload a .zip of your theme.' );
 	}
 
-	$theme_path = '/tmp/'. str_replace( '.', '', $theme['name'] ) . '/';
-
 	$zip = new \ZipArchive;
-	$res = $zip->open( $theme['tmp_name'] );
-	if ( $res === true ) {
-		$zip->extractTo( $theme_path );
-		$zip->close();
+	$result = $zip->open( $theme['tmp_name'], \ZipArchive::CHECKCONS );
+	if ( true === $result ) {
+		if ( ! $theme_check->set_theme( $zip ) ) {
+			send_json_error( 'Theme not found.' );
+		}
 	} else {
 		send_json_error( 'Error unzipping theme.' );
-	}
-
-	if ( ! $theme_check->set_theme( $theme_path ) ) {
-		send_json_error( 'Theme not found.' );
 	}
 
 	return $theme_check;

@@ -28,10 +28,11 @@ class API {
 	 *
 	 * @param  string  $theme  Path to the theme folder to check
 	 */
-	public function set_theme( $theme ) {
-		if ( file_exists( $theme ) ) {
-			$this->theme = $this->find_theme( $theme );
-			$this->headers = $this->parse_style_header( $this->theme );
+	public function set_theme( $zip ) {
+		if ( is_a( $zip, 'ZipArchive' ) ) {
+			$this->theme = $zip;
+			$this->base_path = $this->find_theme( $zip );
+			$this->headers = $this->parse_style_header( $zip, $this->base_path );
 			if ( $this->headers['Template'] ) {
 				$this->is_child = true;
 			}
@@ -42,59 +43,50 @@ class API {
 	}
 
 	/**
-	 * Grab the base theme directory by looking for style.css.
+	 * Grab the base theme path by looking for style.css.
 	 *
-	 * @param  string  $theme  Directory of uploaded, unzipped theme
-	 * @return  string  Full path to theme
+	 * @param  ZipArchive  $zip  Uploaded theme opened via ZipArchive::open
+	 * @return  string  Path to theme inside the zip
 	 */
-	public function find_theme( $theme ){
-		$this->base_path = $theme;
-		$files = scandir( $theme );
-		if ( ! in_array( 'style.css', $files ) ){
-			foreach ( $files as $maybe_folder ) {
-				if ( in_array( $maybe_folder, array( '.', '..' ) ) ) {
-					continue;
-				}
-				if ( is_dir( $theme . $maybe_folder ) ) {
-					$subfiles = scandir( $theme . $maybe_folder );
-					if ( in_array( 'style.css', $subfiles ) ) {
-						$theme .= $maybe_folder . '/';
-						break;
-					}
-				}
+	public function find_theme( $zip ){
+		$path = '';
+		$style = $zip->locateName( 'style.css' );
+		if ( ! $style ) {
+			// First entry should be the directory, if we're looking at a zipped folder.
+			$path = $zip->getNameIndex( 0 );
+			if ( substr( $path, -1 ) == '/' ) {
+				$style = $zip->locateName( $path . 'style.css' );
 			}
 		}
-		if ( ! file_exists( $theme . 'style.css' ) ){
-			// Invalid theme, should be deleted.
-			delete_dir( $this->base_path );
+		// If we still don't have a style.css, we don't have a theme.
+		if ( ! $style ) {
 			send_json_error( "Required file style.css does not exist. This file must be present in a valid theme." );
 		}
 
-		return $theme;
+		return $path;
 	}
 
 	/**
 	 * Parse style.css for the theme data
 	 *
-	 * @return  array  Assoc array of theme information
+	 * @param  ZipArchive  $zip  Uploaded theme opened via ZipArchive::open
+	 * @param  string      $base_path  Path to the theme relative to the zip
+	 * @return  array|boolean  Assoc array of theme information, or false if we can't read style.css
 	 */
-	public function parse_style_header( $theme ) {
+	public function parse_style_header( $zip, $base_path = '' ) {
 		$headers = $this->headers;
 
-		// We don't need to write to the file, so just open for reading.
-		$fp = fopen( $theme . 'style.css', 'r' );
-
 		// Pull only the first 8kiB of the file in.
-		$file_data = fread( $fp, 8192 );
-
-		// PHP will close file handle, but we are good citizens.
-		fclose( $fp );
+		$style = $zip->getFromName( $base_path . 'style.css', 8192 );
+		if ( false === $style ) {
+			return false;
+		}
 
 		// Make sure we catch CR-only line endings.
-		$file_data = str_replace( "\r", "\n", $file_data );
+		$style = str_replace( "\r", "\n", $style );
 
 		foreach ( $headers as $field => $regex ) {
-			if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, $match ) && $match[1] ) {
+			if ( preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $style, $match ) && $match[1] ) {
 				$headers[ $field ] = trim( preg_replace( "/\s*(?:\*\/|\?>).*/", '', $match[1] ) );
 			} else {
 				$headers[ $field ] = '';
@@ -127,18 +119,23 @@ class API {
 		$results = array();
 		$passes = $fails = 0;
 
-		$files = listdir( $this->theme );
 		$php = $css = $other = array();
 
-		foreach ( $files as $key => $filename ) {
-			if ( substr( $filename, -4 ) == '.php' ) {
-				$php[$filename] = php_strip_whitespace( $filename );
-			} else if ( substr( $filename, -4 ) == '.css' ) {
-				$css[$filename] = file_get_contents( $filename );
+		// Pull the files out of the zip.
+		for ( $i = 0; $i < $this->theme->numFiles; $i++ ) {
+			$file_name = $this->theme->getNameIndex( $i );
+
+			if ( substr( $file_name, -4 ) == '.php' ) {
+				$php[$file_name] = preg_replace('/\s\s+/', ' ', $this->theme->getFromIndex( $i ) );
+			} else if ( substr( $file_name, -4 ) == '.css' ) {
+				$css[$file_name] = $this->theme->getFromIndex( $i );
+			} else if ( substr( $file_name, -1 ) == '/' ) {
+				$other[$file_name] = '';
 			} else {
-				$other[$filename] = ( ! is_dir( $filename ) ) ? file_get_contents( $filename ) : '';
+				$other[$file_name] = $this->theme->getFromIndex( $i );
 			}
 		}
+
 		// A child theme might not have any PHP, so only fail this if there is no Template defined.
 		if ( empty( $php ) && '' == $this->is_child ){
 			send_json_error( "Invalid theme, no PHP files were found." );
@@ -146,6 +143,7 @@ class API {
 
 		foreach ( $themechecks as $name => $test ) {
 			$test->theme = $this->theme;
+			$test->base_path = $this->base_path;
 			if ( $test->check( $php, $css, $other ) ) {
 				$passes++;
 			} else {
