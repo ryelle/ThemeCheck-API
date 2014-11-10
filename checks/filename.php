@@ -30,6 +30,7 @@ class Filename_Check extends ThemeCheck {
 			'.sql'               => 'SQL dump file',
 			'__macosx'           => 'OSX system file',
 			'__MACOSX'           => 'OSX system file',
+			'node_modules'       => 'node developer files',
 		);
 
 		$musthave = array( 'index.php', 'comments.php', 'style.css' );

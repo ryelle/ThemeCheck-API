@@ -125,6 +125,11 @@ class API {
 		for ( $i = 0; $i < $this->theme->numFiles; $i++ ) {
 			$file_name = $this->theme->getNameIndex( $i );
 
+			// Don't scan into node_modules or .sass-cache, but keep the top-level folder so it's caught by Filename_Check.
+			if ( preg_match( '/node_modules\/.+/i', $file_name ) || preg_match( '/\.sass-cache\/.+/i', $file_name ) ){
+				continue;
+			}
+
 			if ( substr( $file_name, -4 ) == '.php' ) {
 				$php[$file_name] = preg_replace('/\s\s+/', ' ', $this->theme->getFromIndex( $i ) );
 			} else if ( substr( $file_name, -4 ) == '.css' ) {
