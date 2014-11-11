@@ -130,11 +130,14 @@ class API {
 				continue;
 			}
 
-			if ( substr( $file_name, -4 ) == '.php' ) {
+			$extension = substr( strrchr( $file_name, '.' ), 1 );
+			if ( $extension == 'php' ) {
 				$php[$file_name] = preg_replace('/\s\s+/', ' ', $this->theme->getFromIndex( $i ) );
-			} else if ( substr( $file_name, -4 ) == '.css' ) {
+			} else if ( $extension == 'css' ) {
 				$css[$file_name] = $this->theme->getFromIndex( $i );
 			} else if ( substr( $file_name, -1 ) == '/' ) {
+				$other[$file_name] = '';
+			} else if ( in_array( $extension, array( 'jpg', 'jpeg', 'png', 'gif' ) ) ) {
 				$other[$file_name] = '';
 			} else {
 				$other[$file_name] = $this->theme->getFromIndex( $i );
