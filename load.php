@@ -50,9 +50,12 @@ abstract class ThemeCheck {
 	 * @return  int  Line number of code, 0 if not found.
 	 */
 	public function get_line( $code, $file_path ) {
+		$code = trim( $code );
+		if ( empty( $code ) ){
+			return 0;
+		}
 		// Read the theme file into an array
 		$lines = file( 'zip://'. $this->theme->filename . '#' . $file_path, FILE_IGNORE_NEW_LINES );
-		$code = trim( $code );
 		foreach ( $lines as $line_number => $line ) {
 			if ( stristr( $line, $code ) ) {
 				return $line_number + 1; // Lines are not zero-indexed.
