@@ -49,13 +49,13 @@ abstract class ThemeCheck {
 	 * @param  string  $file_path  Path to file to be searched
 	 * @return  int  Line number of code, 0 if not found.
 	 */
-	public function get_line( $code, $file_path ) {
+	public function get_line( $code, $file_contents ) {
 		$code = trim( $code );
 		if ( empty( $code ) ){
 			return 0;
 		}
 		// Read the theme file into an array
-		$lines = file( 'zip://'. $this->theme->filename . '#' . $file_path, FILE_IGNORE_NEW_LINES );
+		$lines = explode( "\n", $file_contents );
 		foreach ( $lines as $line_number => $line ) {
 			if ( stristr( $line, $code ) ) {
 				return $line_number + 1; // Lines are not zero-indexed.

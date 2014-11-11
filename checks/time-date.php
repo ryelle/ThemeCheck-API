@@ -16,7 +16,7 @@ class Time_Date_Check extends ThemeCheck {
 			foreach ( $tests as $test ) {
 				if ( preg_match( $test, $file_contents, $matches ) ) {
 					$file_name = basename( $file_path );
-					$line = $this->get_line( $matches[0], $file_path );
+					$line = $this->get_line( $matches[0], $file_contents );
 					$this->error[] = array(
 						'level' => TC_INFO,
 						'file'  => $file_name,

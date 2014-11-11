@@ -13,7 +13,7 @@ class NonPrintable_Check  extends ThemeCheck {
 			// 0D = new line
 			if ( preg_match( '/[\x00-\x08\x0B-\x0C\x0E-\x1F\x80-\xFF]/', $file_contents, $matches ) ) {
 				$file_name = basename( $file_path );
-				$line = $this->get_line( $matches[0], $file_path );
+				$line = $this->get_line( $matches[0], $file_contents );
 				$this->error[] = array(
 					'level' => TC_INFO,
 					'file'  => $file_name,

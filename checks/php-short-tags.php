@@ -12,7 +12,7 @@ class PHP_Short_Tags_Check extends ThemeCheck {
 			// (otherwise get_line matches the first php tag).
 			if ( preg_match( '/<\?(\=?)(?!php|xml).{4}/', $file_contents, $matches ) ) {
 				$file_name = basename( $file_path );
-				$line = $this->get_line( $matches[0], $file_path );
+				$line = $this->get_line( $matches[0], $file_contents );
 				$this->error[] = array(
 					'level' => TC_WARNING,
 					'file'  => $file_name,

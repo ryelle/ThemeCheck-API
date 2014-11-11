@@ -31,7 +31,7 @@ class Admin_Menu_Check extends ThemeCheck {
 			foreach ( $tests as $test ) {
 				if ( preg_match( $test['pattern'], $file_contents, $matches ) ) {
 					$file_name = basename( $file_path );
-					$line = $this->get_line( $matches[1], $file_path );
+					$line = $this->get_line( $matches[1], $file_contents );
 
 					$this->error[] = array(
 						'level' => $test['level'],
