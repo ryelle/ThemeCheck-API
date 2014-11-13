@@ -54,13 +54,15 @@ abstract class ThemeCheck {
 		if ( empty( $code ) ){
 			return 0;
 		}
-		// Read the theme file into an array
-		$lines = explode( "\n", $file_contents );
-		foreach ( $lines as $line_number => $line ) {
-			if ( stristr( $line, $code ) ) {
-				return $line_number + 1; // Lines are not zero-indexed.
-			}
+
+		// Count the number of linebreaks before our flagged code.
+		$offset = strpos( $file_contents, $code );
+		if ( false !== $offset ) {
+			$count = substr_count( $file_contents, "\n", 0, $offset );
+			// We've found x linebreaks before this one, so this is on the next.
+			return $count + 1;
 		}
+
 		return 0;
 	}
 }
