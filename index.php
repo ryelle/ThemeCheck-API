@@ -84,7 +84,7 @@ function validate(){
 
 	$tests = $app->request->params( 'tests' );
 	if ( ! $tests ){
-		$results = $theme_check->run_tests( $tests );
+		$results = $theme_check->run_tests();
 		send_json_success( $results );
 	}
 
@@ -92,7 +92,7 @@ function validate(){
 	$tests = array_intersect( (array) $tests, array_keys( $themechecks ) );
 
 	if ( $theme_check->select_tests( $tests ) ){
-		$results = $theme_check->run_tests( $tests );
+		$results = $theme_check->run_tests();
 		send_json_success( $results );
 	}
 
