@@ -166,6 +166,7 @@ class API {
 		$total_results = count( $results );
 
 		return array(
+			'theme'   => $this->theme->filename,
 			'total'   => \ThemeCheck::get_increment(),
 			'passes'  => $passes,
 			'fails'   => $fails,
