@@ -8,7 +8,7 @@ class Style_Tags_Check extends ThemeCheck {
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.
 
-		if ( ! isset( $header[ 'Tags' ] ) || ! $header[ 'Tags' ] ) {
+		if ( ! isset( $header['Tags'] ) || ! $header['Tags'] ) {
 			$this->error[] = array(
 				'level' => TC_RECOMMENDED,
 				'file'  => 'style.css',

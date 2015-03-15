@@ -132,15 +132,15 @@ class API {
 
 			$extension = substr( strrchr( $file_name, '.' ), 1 );
 			if ( $extension == 'php' ) {
-				$php[$file_name] = $this->theme->getFromIndex( $i );
+				$php[ $file_name ] = $this->theme->getFromIndex( $i );
 			} else if ( $extension == 'css' ) {
-				$css[$file_name] = $this->theme->getFromIndex( $i );
+				$css[ $file_name ] = $this->theme->getFromIndex( $i );
 			} else if ( substr( $file_name, -1 ) == '/' ) {
-				$other[$file_name] = '';
+				$other[ $file_name ] = '';
 			} else if ( in_array( $extension, array( 'jpg', 'jpeg', 'png', 'gif' ) ) ) {
-				$other[$file_name] = '';
+				$other[ $file_name ] = '';
 			} else {
-				$other[$file_name] = $this->theme->getFromIndex( $i );
+				$other[ $file_name ] = $this->theme->getFromIndex( $i );
 			}
 		}
 
@@ -185,7 +185,7 @@ class API {
 		global $themechecks;
 		foreach ( $themechecks as $key => $value ) {
 			if ( ! in_array( $key, $tests ) ){
-				unset( $themechecks[$key] );
+				unset( $themechecks[ $key ] );
 			}
 		}
 

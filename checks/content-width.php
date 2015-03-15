@@ -26,4 +26,4 @@ class Content_Width_Check extends ThemeCheck {
 	}
 }
 
-$themechecks[ 'content-width' ] = new Content_Width_Check;
+$themechecks['content-width'] = new Content_Width_Check;
