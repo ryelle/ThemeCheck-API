@@ -35,7 +35,7 @@ class Filename_Check extends ThemeCheck {
 
 		$musthave = array( 'index.php', 'comments.php', 'style.css' );
 		$recommended = array(
-			'readme.txt' => 'Please see <a href="http://codex.wordpress.org/Theme_Review#Theme_Documentation">Theme_Documentation</a> for more information.',
+			'readme.txt' => 'Please see <a href="https://codex.wordpress.org/Theme_Review#Theme_Documentation">Theme_Documentation</a> for more information.',
 		);
 
 		ThemeCheck::increment(); // Keep track of how many checks we do.

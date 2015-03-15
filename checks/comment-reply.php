@@ -14,7 +14,7 @@ class Comment_Reply_Check extends ThemeCheck {
 					'level' => TC_REQUIRED,
 					'file'  => false,
 					'line'  => false,
-					'error' => 'Could not find the <strong>comment-reply</strong> script enqueued. See: <a href="http://codex.wordpress.org/Migrating_Plugins_and_Themes_to_2.7/Enhanced_Comment_Display">Migrating Plugins and Themes to 2.7/Enhanced Comment Display</a>.',
+					'error' => 'Could not find the <strong>comment-reply</strong> script enqueued. See: <a href="https://codex.wordpress.org/Migrating_Plugins_and_Themes_to_2.7/Enhanced_Comment_Display">Migrating Plugins and Themes to 2.7/Enhanced Comment Display</a>.',
 					'test'  => __CLASS__,
 				);
 				$pass = false;

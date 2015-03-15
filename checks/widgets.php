@@ -16,7 +16,7 @@ class Widgets_Check extends ThemeCheck {
 				'level' => TC_RECOMMENDED,
 				'file'  => false,
 				'line'  => false,
-				'error' => "This theme contains no sidebars/widget areas. See <a href='http://codex.wordpress.org/Widgets_API'>Widgets API</a>",
+				'error' => "This theme contains no sidebars/widget areas. See <a href='https://codex.wordpress.org/Widgets_API'>Widgets API</a>",
 				'test'  => __CLASS__,
 			);
 			$pass = true;
@@ -29,7 +29,7 @@ class Widgets_Check extends ThemeCheck {
 				'level' => TC_REQUIRED,
 				'file'  => false,
 				'line'  => false,
-				'error' => 'The theme appears to use <strong>register_sidebar()</strong> but no <strong>dynamic_sidebar()</strong> was found. See: <a href="http://codex.wordpress.org/Function_Reference/dynamic_sidebar">dynamic_sidebar</a>',
+				'error' => 'The theme appears to use <strong>register_sidebar()</strong> but no <strong>dynamic_sidebar()</strong> was found. See: <a href="https://codex.wordpress.org/Function_Reference/dynamic_sidebar">dynamic_sidebar</a>',
 				'test'  => __CLASS__,
 			);
 			$pass = false;
@@ -42,7 +42,7 @@ class Widgets_Check extends ThemeCheck {
 				'level' => TC_REQUIRED,
 				'file'  => false,
 				'line'  => false,
-				'error' => 'The theme appears to use <strong>dynamic_sidebars()</strong> but no <strong>register_sidebar()</strong> was found. See: <a href="http://codex.wordpress.org/Function_Reference/register_sidebar">register_sidebar</a>',
+				'error' => 'The theme appears to use <strong>dynamic_sidebars()</strong> but no <strong>register_sidebar()</strong> was found. See: <a href="https://codex.wordpress.org/Function_Reference/register_sidebar">register_sidebar</a>',
 				'test'  => __CLASS__,
 			);
 			$pass = false;
@@ -56,7 +56,7 @@ class Widgets_Check extends ThemeCheck {
 				'level' => TC_REQUIRED,
 				'file'  => false,
 				'line'  => false,
-				'error' => 'Sidebars need to be registered in a custom function hooked to the <strong>widgets_init</strong> action. See: <a href="http://codex.wordpress.org/Function_Reference/register_sidebar">register_sidebar()</a>',
+				'error' => 'Sidebars need to be registered in a custom function hooked to the <strong>widgets_init</strong> action. See: <a href="https://codex.wordpress.org/Function_Reference/register_sidebar">register_sidebar()</a>',
 				'test'  => __CLASS__,
 			);
 			$pass = false;

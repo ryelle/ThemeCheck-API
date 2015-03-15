@@ -17,11 +17,11 @@ class Admin_Menu_Check extends ThemeCheck {
 			), array(
 				'level'   => TC_WARNING,
 				'pattern' => '/([^_](add_(admin|submenu|menu|dashboard|posts|media|links|pages|comments|theme|plugins|users|management|options)_page)\s?\([^,]*,[^,]*,\s[\'|"]?(level_[0-9]|[0-9])[^;|\r|\r\n]*)/',
-				'reason'  => 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="http://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>',
+				'reason'  => 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="https://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>',
 			), array(
 				'level'   => TC_WARNING,
 				'pattern' => '/[^a-z0-9](current_user_can\s?\(\s?[\'\"]level_[0-9][\'\"]\s?\))[^\r|\r\n]*/',
-				'reason'  => 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="http://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>',
+				'reason'  => 'User levels were deprecated in <strong>2.0</strong>. Please see <a href="https://codex.wordpress.org/Roles_and_Capabilities">Roles_and_Capabilities</a>',
 			),
 		);
 
