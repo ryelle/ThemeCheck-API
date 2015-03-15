@@ -10,7 +10,7 @@ define( 'TC_INFO', 3 );
 // interface that all checks should implement
 abstract class ThemeCheck {
 	/**
-	 * @todo docs
+	 * Our error collection for this check
 	 */
 	protected $error = array();
 
