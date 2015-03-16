@@ -22,7 +22,7 @@ class Title_Check extends ThemeCheck {
 				'level' => TC_RECOMMENDED,
 				'file'  => false,
 				'line'  => false,
-				'error' => 'No reference to <strong>add_theme_support( "title-tag" )</strong> was found in the theme. It is recommended that the theme implement this functionality for WordPress 4.1 and above.',
+				'error' => 'No reference to <code>add_theme_support( "title-tag" )</code> was found in the theme. It is recommended that the theme implement this functionality for WordPress 4.1 and above.',
 				'test'  => __CLASS__,
 			);
 			$needs_title_tag = true;
