@@ -1,0 +1,48 @@
+body,
+button,
+input,
+select,
+textarea {
+	color: $color__text-main;
+	font-family: $font__main;
+	@include font-size( $font__size-main );
+	line-height: $font__line-height-body;
+}
+
+h1, h2 {
+	font-family: $font__header;
+}
+
+h1 {
+	@include font-size( $font__size-header );
+	letter-spacing: 2px;
+}
+
+pre {
+	background: $color__background-pre;
+	font-family: $font__code;
+	@include font-size( $font__size-input );
+	line-height: $font__line-height-pre;
+	margin-bottom: 1.6em;
+	max-width: 100%;
+	overflow: auto;
+	padding: 1.6em;
+}
+
+code, kbd, tt, var {
+	font-family: $font__code;
+	@include font-size( $font__size-input );
+}
+
+a {
+	color: $color__link;
+
+	&:visited {
+		color: $color__link-visited;
+	}
+	&:hover,
+	&:focus,
+	&:active {
+		color: $color__link-hover;
+	}
+}

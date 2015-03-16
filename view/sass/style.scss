@@ -1,0 +1,99 @@
+
+@import 'normalize';
+@import 'mixins';
+@import 'variables';
+@import 'dashicons';
+
+@import 'type';
+@import 'form';
+
+body {
+	background: $color__background-body;
+	text-align: center;
+	letter-spacing: 1px;
+}
+
+.container {
+	margin: 0 auto;
+	max-width: $size__site-main;
+}
+
+.site-header {
+	margin-bottom: $size__space*1.5;
+	color: $color__text-header;
+	background: $color__background-header;
+	border-bottom: 3px solid darken( $color__background-header, 15% );
+
+	h1 {
+		margin: 0;
+		padding: $size__space 0 $size__space;
+	}
+
+	a {
+		text-decoration: none;
+	}
+}
+
+fieldset {
+	margin: $size__space*1.5 0;
+	padding: $size__space 0;
+	text-align: left;
+
+	legend {
+		padding: 0 15px;
+		text-align: center;
+	}
+
+	.actions {
+		clear: both;
+		margin: $size__space $size__space 0;
+		text-align: center;
+
+		button {
+			padding: 10px 10px 8px;
+			@include font-size( 12 );
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-weight: $font__weight-semibold;
+			border-bottom: none;
+		}
+	}
+
+	label {
+		display: block;
+		float: left;
+		margin-bottom: 15px;
+		padding: 0 25px;
+		width: 33%;
+		box-sizing: border-box;
+		text-transform: capitalize;
+
+		span {
+			border-bottom: 2px solid transparent;
+		}
+
+		&.focus span {
+			border-bottom-color: $color__border-input-focus;
+		}
+	}
+}
+
+.processing fieldset {
+	display: none;
+}
+
+.error {
+	margin-bottom: $size__space*1.5;
+	font-style: italic;
+}
+
+.results {
+	margin-top: $size__space;
+	padding-left: 0;
+	text-align: left;
+	list-style: none;
+
+	li {
+		margin: $size__space/2;
+	}
+}

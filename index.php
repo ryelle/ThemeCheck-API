@@ -16,10 +16,17 @@ require_once __DIR__ . '/api.php';
 $app = new \Slim\Slim( array(
 	'debug' => true,
 ) );
+$app->get( '/', '\ThemeCheck\index' );
 $app->get( '/tests/', '\ThemeCheck\list_tests' );
 $app->post( '/validate/', '\ThemeCheck\validate' );
 $app->post( '/headers/', '\ThemeCheck\get_headers' );
 $app->run();
+
+function index() {
+	ob_end_clean();
+	require_once( 'view/index.php' );
+	exit;
+}
 
 /**
  * List all available checks

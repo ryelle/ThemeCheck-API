@@ -1,0 +1,67 @@
+// ===============
+//    Structure
+// ===============
+
+$size__space: 50px;
+$size__site-main: 1000px;
+
+// ===============
+//    Colors
+// ===============
+
+// New
+$chalkboard: #323438;
+
+$yellow: #E9DCA7;
+$blue: #B6D7D4;
+$pink: #E2B8AE;
+$mint: #C1DABA;
+$cyan: #BAE6DF;
+$grey: #E9E9E9;
+
+$chalk: $cyan;
+
+// In-context colors
+
+$color__background-body: $chalkboard;
+$color__background-header: $chalk;
+$color__background-button: $chalk;
+$color__background-pre: rgba( $chalk, 0.25 );
+
+$color__text-header: $chalkboard;
+$color__text-main: $chalk;
+
+$color__text-button: $chalkboard;
+$color__check: $color__text-main;
+$color__text-input: $color__text-main;
+$color__text-input-focus: $color__text-main;
+
+$color__link: inherit;
+$color__link-visited: inherit;
+$color__link-hover: inherit;
+
+$color__border-button: darken( $color__background-button, 15% );
+$color__border-input: $chalk;
+$color__border-input-focus: $chalk;
+
+// ===============
+//    Fonts
+// ===============
+
+@import url(http://fonts.googleapis.com/css?family=Sorts+Mill+Goudy:400,400italic);
+@import url(http://fonts.googleapis.com/css?family=Ek+Mukta:200,600);
+
+$font__main: 'Ek Mukta', sans-serif;
+$font__header: 'Sorts Mill Goudy', serif;
+$font__code: "Source Code Pro", Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+
+$font__size-header: 56;
+$font__size-main: 20;
+$font__size-input: 16;
+
+$font__line-height-body: 1.57142857143;
+$font__line-height-pre: 1.57142857143;
+
+$font__weight-normal: 200;
+$font__weight-semibold: 600;
+$font__weight-bold: 700;
